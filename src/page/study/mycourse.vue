@@ -3,10 +3,10 @@
 		<div class="course-menu">
 			<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
 				<el-menu-item index="1">
-					<router-link to="/study/children/nocourse">未上的课程</router-link>
+					<router-link to="/study/mycourse/nocourse">未上的课程</router-link>
 				</el-menu-item>
 				<el-menu-item index="2">
-					<router-link to="/study/children/complete">已上的课程</router-link>
+					<router-link to="/study/mycourse/complete">已上的课程</router-link>
 				</el-menu-item>
 			</el-menu>
 		</div>
@@ -17,11 +17,13 @@
 </template>
 
 <script>
+import undone from './children/undone'
 import complete from './children/complete'
 
 export default {
 	components: {
-    'complete': complete
+		'undone': undone,
+		'complete': complete
   },
 	data() {
 		return {

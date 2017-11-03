@@ -19,6 +19,8 @@ import regtel from '../page/register/regtel'
 // 学习页
 import study from '../page/study'
 import mycourse from '../page/study/mycourse'
+import undone from '../page/study/children/undone'
+import complete from '../page/study/children/complete'
 // --------------------------------------------
 
 Vue.use(Router)
@@ -67,13 +69,18 @@ export default new Router({
     {
       path: '/study',
       component: study,
-      redirect: '/study/mycourse/complete',
+      redirect: '/study/mycourse/undone',
       children: [{
           path: 'mycourse',
           component: mycourse,
+          redirect: '/study/mycourse/undone',
           children: [{
-              path: 'complete',
-              component: complete
+            path: 'undone',
+            component: undone
+          },
+          {
+            path: 'complete',
+            component: complete
           }]
       }]
     }

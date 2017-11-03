@@ -13,13 +13,13 @@
 <script>
 import sHeader from '../../components/header/s-header'
 import sAside from '../../components/common/s-aside'
-import myCourse from './mycourse'
+import mycourse from './mycourse'
 
 export default {
   components: {
-	's-header': sHeader,
-	's-aside': sAside,
-	'mycourse': myCourse
+		's-header': sHeader,
+		's-aside': sAside,
+		'mycourse': mycourse
   }
 }
 </script>
