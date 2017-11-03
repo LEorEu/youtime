@@ -1,7 +1,8 @@
 <template>
 	<div class="course-box">
 		<div class="course-list">
-			<ul>
+			231
+			<!-- <ul>
 				<li class="flex" v-for="(course, index) in courses" :key="course.index">
 					<div class="course-left line">
 						<i class="icon-round"></i>
@@ -21,7 +22,7 @@
 						</div>
 					</div>
 				</li>
-			</ul>
+			</ul> -->
 		</div>
 	</div>
 </template>

@@ -1,13 +1,9 @@
 <template>
 	<div class="mycourse">
 		<div class="course-menu">
-			<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-				<el-menu-item index="1">
-					<router-link to="/study/children/nocourse">未上的课程</router-link>
-				</el-menu-item>
-				<el-menu-item index="2">
-					<router-link to="/study/children/complete">已上的课程</router-link>
-				</el-menu-item>
+			<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" router=true>
+				<el-menu-item index="nocourse">未上的课程</el-menu-item>
+				<el-menu-item index="complete">已上的课程</el-menu-item>
 			</el-menu>
 		</div>
 		<div class="course-main">
@@ -17,12 +13,15 @@
 </template>
 
 <script>
-import complete from './children/complete'
+
+import Complete from './children/complete'
+import Nocourse from './children/nocourse'
 
 export default {
 	components: {
-    'complete': complete
-  },
+		'complete': Complete,
+		'nocourse': Nocourse,
+  	},
 	data() {
 		return {
 			activeIndex: '1'
