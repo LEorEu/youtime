@@ -1,7 +1,7 @@
 <template>
 	<div class="mycourse">
 		<div class="course-menu">
-			<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" router=true>
+			<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
 				<el-menu-item index="nocourse">未上的课程</el-menu-item>
 				<el-menu-item index="complete">已上的课程</el-menu-item>
 			</el-menu>
