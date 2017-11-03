@@ -14,31 +14,12 @@
 			<div class="nav nav-login fl-r">
 				<ul>
 					<li><router-link to="/buycourse">购买课程</router-link></li>
-					<li>
-						<el-dropdown>
-							<span class="el-dropdown-link">Hi，测试账号同学<i class="el-icon-arrow-down el-icon--right"></i></span>
-							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item>个人信息</el-dropdown-item>
-								<el-dropdown-item>退出登录</el-dropdown-item>
-							</el-dropdown-menu>
-						</el-dropdown>
-					</li>
+					<li><router-link to="/login">登录</router-link></li>
 				</ul>
 			</div>
 		</div>
 	</el-header>
 </template>
-
-<script>
-export default{
-	mounted(){
-		
-  	},
-  	methods: {
-
-	}
-}
-</script>
 
 <style lang="less" scoped>
 	.el-header{ background-color: #FF6325;
@@ -57,9 +38,6 @@ export default{
 			li{ list-style:none; float:left;
 				a{ display:block;padding:0 15px;width: 100%; line-height: 60px; font-size: 16px; color: #fff;;}
 				a:hover{ transition: all .3s; color: #FF6325; background-color: #fff;}
-				.el-dropdown{ margin-left: 20px;
-					span{ line-height: 60px; font-size: 14px; color: #fff;}
-				} 
 			}
 		}
 	}

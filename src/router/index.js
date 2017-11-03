@@ -40,44 +40,42 @@ export default new Router({
       path: '/login',
       component: login,
       redirect: '/login/tabmail',
-      children: [
-        {
+      children: [{
           path: 'tabmail',
           component: tabmail
         },
         {
           path: 'tabtel',
           component: tabtel
-        }
-      ]
+        }]
     },
     //注册
     {
       path: '/register',
       component: register,
       redirect: '/register/regtel',
-      children: [
-        {
+      children: [{
           path: 'regmail',
           component: regmail
         },
         {
           path: 'regtel',
           component: regtel
-        }
-      ]
+      }]
     },
     //学习
     {
       path: '/study',
       component: study,
-      redirect: '/study/mycourse',
-      children: [
-        {
+      redirect: '/study/mycourse/complete',
+      children: [{
           path: 'mycourse',
-          component: mycourse
-        }
-      ]
+          component: mycourse,
+          children: [{
+              path: 'complete',
+              component: complete
+          }]
+      }]
     }
   ]
 })

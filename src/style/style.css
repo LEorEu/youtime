@@ -34,7 +34,7 @@ html{
 }
 
 body {
-    font-family: "Hiragino Sans GB","PingFangSC-Regular",sans-serif;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
     font-weight: normal;
     font-size: 100%;
     -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
@@ -57,7 +57,7 @@ a{
     color: #333;
 }
 input{
-    font-family: "Hiragino Sans GB","PingFangSC-Regular",sans-serif;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 button{
     outline: 0;
@@ -80,7 +80,16 @@ button{
 .fl-r{
     float: right;
 }
-
+.flex {
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: box;
+    display: flexbox;
+    display: flex;
+    width: 100%;
+}
 .mask{
     position: fixed;
     display: none;

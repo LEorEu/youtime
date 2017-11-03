@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <s-header></s-header>
+    <yt-header></yt-header>
     <div class="login-bg">
       <div class="container">
         <div class="login-cont">
@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import sHeader from '../../components/header/s-header'
+import ytHeader from '../../components/header/yt-header'
 import tabtel from './tabtel'
 import tabmail from './tabmail'
 
 export default {
   components: {
-    's-header': sHeader,
+    'yt-header': ytHeader,
     'tabtel': tabtel,
     'tabmail': tabmail
   }
