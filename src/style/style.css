@@ -1,0 +1,99 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,a,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+
+}
+html{
+    width: 100%;
+    height: 100%;
+    font-size: 100%;
+}
+
+body {
+    font-family: "Hiragino Sans GB","PingFangSC-Regular",sans-serif;
+    font-weight: normal;
+    font-size: 100%;
+    -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+    -webkit-text-size-adjust: 100%;
+    position: relative;
+    width: 100%;
+    min-width: 1200px;
+    height: 100%;
+}
+em, i, strong{
+    font-style: normal;
+}
+p {
+    text-align: justify;
+    word-wrap: break-word;
+    line-height: 1.5;
+    letter-spacing: 1px;
+}
+a{
+    color: #333;
+}
+input{
+    font-family: "Hiragino Sans GB","PingFangSC-Regular",sans-serif;
+}
+button{
+    outline: 0;
+}
+.clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+.clearfix {
+    zoom: 1;
+}
+.container{padding-right: 0px; padding-left: 0px;}
+@media (min-width:1200px){.container{width:1200px}}
+.fl-l{
+    float: left;
+}
+.fl-r{
+    float: right;
+}
+
+.mask{
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(61,70,83,.7);
+    z-index: 180;
+}
+.hide{
+    display: none;
+}
+img {
+    max-width: 100%;
+}
