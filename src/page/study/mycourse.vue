@@ -17,14 +17,15 @@
 </template>
 
 <script>
-import undone from './children/undone'
-import complete from './children/complete'
+
+import Undone from './children/undone'
+import Complete from './children/complete'
 
 export default {
 	components: {
-		'undone': undone,
-		'complete': complete
-  },
+		'complete': Complete,
+		'undone': Undone,
+  	},
 	data() {
 		return {
 			activeIndex: '1'

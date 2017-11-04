@@ -17,10 +17,13 @@ import regtel from '../page/register/regtel'
 // --------------------------------------------
 
 // 学习页
-import study from '../page/study'
-import mycourse from '../page/study/mycourse'
-import undone from '../page/study/children/undone'
-import complete from '../page/study/children/complete'
+import Study from '../page/study'
+import MyCourse from '../page/study/mycourse'
+import Reservation from '../page/study/reservation'
+import Guide from '../page/study/guide'
+import Undone from '../page/study/children/undone'
+import Complete from '../page/study/children/complete'
+
 // --------------------------------------------
 
 Vue.use(Router)
@@ -68,20 +71,28 @@ export default new Router({
     //学习
     {
       path: '/study',
-      component: study,
+      component: Study,
       redirect: '/study/mycourse',
       children: [{
-          path: 'mycourse',
-          component: mycourse,
-          redirect: '/study/mycourse/undone',
-          children: [{
-            path: 'undone',
-            component: undone
-          },
-          {
-            path: 'complete',
-            component: complete
-          }]
+        path: 'mycourse',
+        component: MyCourse,
+        redirect: '/study/mycourse/undone',
+        children: [{
+          path: 'undone',
+          component: Undone
+        },
+        {
+          path: 'complete',
+          component: Complete
+        }]
+      },
+      {
+        path: 'reservation',
+        component: Reservation,
+      },
+      {
+        path: 'guide',
+        component: Guide,
       }]
     }
   ]
