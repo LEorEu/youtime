@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import md5 from 'blueimp-md5'
+
 import moment from 'moment'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

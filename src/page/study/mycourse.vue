@@ -3,7 +3,7 @@
 		<div class="course-menu">
 			<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
 				<el-menu-item index="1">
-					<router-link to="/study/mycourse/nocourse">未上的课程</router-link>
+					<router-link to="/study/mycourse/undone">未上的课程</router-link>
 				</el-menu-item>
 				<el-menu-item index="2">
 					<router-link to="/study/mycourse/complete">已上的课程</router-link>
@@ -45,6 +45,6 @@ export default {
 			.el-menu-item{ font-size: 16px; border-color: #FF7048;}
 		}
 	}
-	.course-main{ width: 100%; height: 1200px; border-top: 10px solid #F2F3F4;}
+	.course-main{ width: 100%; border-top: 10px solid #F2F3F4;}
 }
 </style>

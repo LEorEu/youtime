@@ -69,7 +69,7 @@ export default new Router({
     {
       path: '/study',
       component: study,
-      redirect: '/study/mycourse/undone',
+      redirect: '/study/mycourse',
       children: [{
           path: 'mycourse',
           component: mycourse,
