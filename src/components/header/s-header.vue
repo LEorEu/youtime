@@ -13,10 +13,10 @@
 			</nav>
 			<div class="nav nav-login fl-r">
 				<ul>
-					<li><router-link to="/buycourse">购买课程</router-link></li>
+					<li><router-link to="/study/cart">购买课程</router-link></li>
 					<li>
 						<el-dropdown>
-							<span class="el-dropdown-link">Hi，测试账号同学<i class="el-icon-arrow-down el-icon--right"></i></span>
+							<span class="el-dropdown-link">Hi，{{cname}}同学<i class="el-icon-arrow-down el-icon--right"></i></span>
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item>个人信息</el-dropdown-item>
 								<el-dropdown-item>退出登录</el-dropdown-item>
@@ -30,7 +30,12 @@
 </template>
 
 <script>
-export default{
+export default {
+	data(){
+		return{
+			cname: window.localStorage.getItem('cname')
+		}
+	},
 	mounted(){
 		
   	},

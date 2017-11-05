@@ -21,8 +21,16 @@ import Study from '../page/study'
 import MyCourse from '../page/study/mycourse'
 import Reservation from '../page/study/reservation'
 import Guide from '../page/study/guide'
+import Cart from '../page/study/cart'
+import Pay from '../page/study/pay'
 import Undone from '../page/study/children/undone'
 import Complete from '../page/study/children/complete'
+
+// --------------------------------------------
+
+// 购买页
+// import Cart from '../page/cart'
+// import Pay from '../page/cart/pay'
 
 // --------------------------------------------
 
@@ -88,12 +96,30 @@ export default new Router({
       },
       {
         path: 'reservation',
-        component: Reservation,
+        component: Reservation
       },
       {
         path: 'guide',
-        component: Guide,
+        component: Guide
+      },
+      {
+        path: 'cart',
+        component: Cart
+      },
+      {
+        path: 'pay',
+        component: Pay
       }]
-    }
+    },
+    //购买中心
+    // {
+    //   path: '/cart',
+    //   component: Cart,
+    //   redirect: '/cart',
+    //   children: [{
+    //     path: 'pay',
+    //     component: Pay
+    //   }]
+    // }
   ]
 })

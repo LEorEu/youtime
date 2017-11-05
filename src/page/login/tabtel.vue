@@ -83,6 +83,7 @@ export default{
                         console.log('登录成功');
                         window.localStorage.setItem('id',response.data.data.id);
                         window.localStorage.setItem('account',response.data.data.phone);
+                        window.localStorage.setItem('cname',response.data.data.cname);
                         window.location.href = '/study';
                     }else if(response.data.errCode == '30005'){
                         console.log('用户名或密码错误');

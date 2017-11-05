@@ -2,22 +2,22 @@
 	<el-aside width="200px">
 		<div class="aside-info">
 			<div class="user-img">
-				<img src="" alt="">
+				<img :src="users.headimg" alt="">
 			</div>
 			<div class="user-name">
-				<p>测试账号</p>
+				<p>{{users.cname}}</p>
 			</div>
 		</div>
 		<div class="aside-nav">
 			<ul>
 				<li class="nav-item">
-					<router-link to="/study/mycourse">我的课程</router-link>
+					<router-link to="/study/mycourse" active-class="router-link-active">我的课程</router-link>
 				</li>
 				<li class="nav-item">
-					<router-link to="/study/reservation">预约课程</router-link>
+					<router-link to="/study/reservation" active-class="router-link-active">预约课程</router-link>
 				</li>
 				<li class="nav-item">
-					<router-link to="/study/guide">课前指导</router-link>
+					<router-link to="/study/guide" active-class="router-link-active">课前指导</router-link>
 				</li>
 			</ul>
 		</div>
@@ -25,10 +25,37 @@
 </template>
 
 <script>
-export default{
+import md5 from 'blueimp-md5'
+import axios from 'axios'
+
+export default {
 	data (){
 		return {
-			users:[]
+			users:[],
+		}
+	},
+	mounted(){
+		this.studentInfo();
+	},
+	methods:{
+		studentInfo(){
+			let that=this;
+			let ls = window.localStorage.getItem('id');
+			// md5验证
+			let studentInfo = 'id='+ls
+			let tokens = md5('ilovewan' + studentInfo + 'banghanchen');
+			// ajax
+			let url = '/api/v1/Studentuser_info?' + studentInfo;
+			let config = {
+				headers:{
+					versions: '1',
+					tokens: tokens,
+				}
+			}
+			axios.get(url,studentInfo,config)
+			.then(function (response) {
+				that.users=response.data.data
+			})
 		}
 	}
 }
@@ -48,6 +75,7 @@ export default{
 		ul li{ margin-top: 30px; text-align: center;
 			a{ font-size: 18px; color: #333;}
 			a:hover{ transition: color .3s; color: #FF6325;}
+			.router-link-active{ color: #FF6325;}
 		}
 	}
 }

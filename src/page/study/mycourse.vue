@@ -43,7 +43,9 @@ export default {
 .mycourse{ width: 100%; background-color: #fff; border: 1px solid #E6E6E6;
 	.course-menu{ width: 100%; height: 60px;
 		.el-menu{ margin-left: 30px;
-			.el-menu-item{ font-size: 16px; border-color: #FF7048;}
+			.el-menu-item{ font-size: 16px; border-color: #FF7048;
+			a{ display: block;}
+			}
 		}
 	}
 	.course-main{ width: 100%; border-top: 10px solid #F2F3F4;}
