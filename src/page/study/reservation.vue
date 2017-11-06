@@ -16,8 +16,23 @@
 					<span class="demonstration">选择日期:</span>
 					<el-time-select v-model="value2" :picker-options="{ start: '08:30', step: '00:30', end: '20:30'}" placeholder="选择时间"></el-time-select>
 				</div>
-				<div class="select-btn">
-					<button @click="dateSelect()">click</button>
+			</div>
+			<div class="teacher-main flex">
+				<div class="teacher-list">
+					<ul>
+						<li class="teacher-item" v-for="(teacher, index) in teachers" :key="teacher.index">
+							<div class="teacher-img">
+								<img :src="teacher.headimg" alt="">
+							</div>
+							<div class="teacher-text">
+								<p class="teacher-cname">{{teacher.cname}}</p>
+								<span class="teacher-ename">{{teacher.ename}}</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="teacher-details">
+					
 				</div>
 			</div>
 		</div>
@@ -25,6 +40,9 @@
 </template>
 
 <script>
+import md5 from 'blueimp-md5'
+import axios from 'axios'
+
 export default {
     data() {
 		return {
@@ -34,21 +52,27 @@ export default {
 				}
 			},
 			value1: '',
-			value2: ''
+			value2: '',
+			timeStamp: '',
+			teachers: []
 		}
+	},
+	beforeUpdate(){
+		this.dateSelect();
 	},
 	methods: {
 		dateSelect(){
-			let ymd = this.GMTToStr(this.value1);
-			let year = parseInt(ymd.substring(0,4));
-			let month = parseInt(ymd.substring(5,7));
-			let day = parseInt(ymd.substring(8,10));
-			let hour = parseInt((this.value2).substring(0,2));
-			let min = parseInt((this.value2).substring(3,5));
-			let date = new Date();
-			date.setFullYear(year,month,day)
-			date.setHours(hour,min,0);
-			console.log(Date.parse(date));
+			if (this.value1 != '' && this.value2 != '' && this.value1 != null && this.value2 != null) {
+				let ymd = this.GMTToStr(this.value1);
+				let strtime = ymd.substring(0,10) + ' ' + this.value2 + ':000';
+				let date = new Date(strtime);
+				let timeStamp = Date.parse(date);
+				timeStamp = timeStamp.toString().substring(0,10);
+				this.timeStamp = timeStamp;
+				this.teacherSearch();
+			}else{
+				console.log('请选择完整的时间段');
+			}
 		},
 		GMTToStr(time){
 			let date = new Date(time)
@@ -59,6 +83,39 @@ export default {
 			date.getMinutes() + ':' + 
 			date.getSeconds()
 			return Str
+		},
+		teacherSearch(){
+			let that=this;
+			// md5验证
+			let search = {
+				'time': this.timeStamp,
+				'page': '1',
+				'exp': '',
+				'sex': ''
+			},
+			keys = Object.keys(search),
+			i, len = keys.length;
+			keys.sort();
+			let p = '';
+			for (i = 0; i < len; i++) {
+				let k = keys[i];
+				p += k+'='+search[k]+'&';
+			}
+			p = p.substring(0,p.length-1);
+			let tokens = md5('ilovewan' + p + 'banghanchen');
+			// ajax
+			let url = '/api/v1/onebyone?' + p;
+			let config = {
+				headers:{
+					versions: '1',
+					tokens: tokens,
+				}
+			}
+			axios.get(url,search,config)
+			.then(function (response) {
+				console.log(response.data.data);
+				that.teachers = response.data.data;
+			})
 		}
 	}
 }
