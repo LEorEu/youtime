@@ -14,13 +14,13 @@
 				</div>
 				<div class="block fl-l">
 					<span class="demonstration">选择日期:</span>
-					<el-time-select v-model="value2" :picker-options="{ start: '08:30', step: '00:30', end: '20:30'}" placeholder="选择时间"></el-time-select>
+					<el-time-select v-model="value2" :picker-options="{ start: '09:00', step: '00:30', end: '20:00'}" placeholder="选择时间"></el-time-select>
 				</div>
 			</div>
-			<div class="teacher-main flex">
+			<!-- <div class="teacher-main flex">
 				<div class="teacher-list">
 					<ul>
-						<li class="teacher-item" v-for="(teacher, index) in teachers" :key="teacher.index">
+						<li class="teacher-item flex" v-for="(teacher, index) in teachers" :key="teacher.index">
 							<div class="teacher-img">
 								<img :src="teacher.headimg" alt="">
 							</div>
@@ -34,7 +34,7 @@
 				<div class="teacher-details">
 					
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -42,6 +42,7 @@
 <script>
 import md5 from 'blueimp-md5'
 import axios from 'axios'
+import jstz from 'jstz'
 
 export default {
     data() {
@@ -54,13 +55,27 @@ export default {
 			value1: '',
 			value2: '',
 			timeStamp: '',
-			teachers: []
+			teachers: [],
+			tz: ''
 		}
 	},
-	beforeUpdate(){
-		this.dateSelect();
+	watch:{
+		value1(){
+			this.dateSelect();
+		},
+		value2(){
+			this.dateSelect();
+		}
+	},
+	mounted(){
+		this.timeZone();
 	},
 	methods: {
+		timeZone(){
+			const timezone = jstz.determine();
+			timezone.name(); 
+			this.tz = timezone.name();
+		},
 		dateSelect(){
 			if (this.value1 != '' && this.value2 != '' && this.value1 != null && this.value2 != null) {
 				let ymd = this.GMTToStr(this.value1);
@@ -69,6 +84,7 @@ export default {
 				let timeStamp = Date.parse(date);
 				timeStamp = timeStamp.toString().substring(0,10);
 				this.timeStamp = timeStamp;
+				console.log(date);
 				this.teacherSearch();
 			}else{
 				console.log('请选择完整的时间段');
@@ -129,9 +145,25 @@ export default {
 		}
 		.reservation-subtitle{ margin-left: 10px; line-height: 60px; font-size: 14px; color: #999999;}
 	}
-	.reservation-main{ padding: 20px; width: 100%; border-top: 10px solid #F2F3F4;
-		.time-select .block{ margin-right: 20px;
-			.demonstration{ margin-right: 10px; font-size: 14px; color: #333;}
+	.reservation-main{ padding: 20px 0;  width: 100%; border-top: 10px solid #F2F3F4;
+		.time-select{ padding: 0 20px; 
+			.block{ margin-right: 20px;
+				.demonstration{ margin-right: 10px; font-size: 14px; color: #333;}
+			}
+		} 
+		.teacher-main{ padding: 0 20px; margin-top: 20px; border-top: 1px solid #F2F3F4;;
+			.teacher-list{ padding: 30px 0; width: 230px; border-right: 10px solid #f2f3f4;
+				ul{ margin-right: 20px; background: #F7F7F7; 
+					.teacher-item{ height: 100px; border: 1px solid #D9D9D9; border-top: 0; justify-content:center; align-items:Center;
+						.teacher-img{ width: 70px; height: 70px;}
+						.teacher-text{ margin-left: 15px;
+							.teacher-cname{ font-size: 16px; color: #333333;}
+							.teacher-ename{ display: inline-block; margin-top: 5px; font-size: 14px; color: #818181;}
+						}
+					}
+					.focus{ border: 1px solid #FF6325;}
+				}
+			}
 		}
 	}
 }
