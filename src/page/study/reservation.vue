@@ -57,8 +57,13 @@ export default {
 			teachers: []
 		}
 	},
-	beforeUpdate(){
-		this.dateSelect();
+	watch:{
+		value1(){
+		  this.dateSelect();
+		},
+		value2(){
+		  this.dateSelect();
+		}
 	},
 	methods: {
 		dateSelect(){
