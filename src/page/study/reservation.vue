@@ -17,24 +17,61 @@
 					<el-time-select v-model="value2" :picker-options="{ start: '09:00', step: '00:30', end: '20:00'}" placeholder="选择时间"></el-time-select>
 				</div>
 			</div>
-			<!-- <div class="teacher-main flex">
-				<div class="teacher-list">
-					<ul>
-						<li class="teacher-item flex" v-for="(teacher, index) in teachers" :key="teacher.index">
-							<div class="teacher-img">
-								<img :src="teacher.headimg" alt="">
-							</div>
-							<div class="teacher-text">
-								<p class="teacher-cname">{{teacher.cname}}</p>
-								<span class="teacher-ename">{{teacher.ename}}</span>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="teacher-details">
-					
-				</div>
-			</div> -->
+			<div class="teacher-main">
+				<transition name="el-fade-in-linear">
+					<div class="teacher-content flex" v-show="show">
+						<div class="teacher-list">
+							<ul>
+								<li class="teacher-item flex" v-for="(teacher, index) in teachers" :key="teacher.index" @click="tabs(index,teacher.tid)">
+									<div class="teacher-img">
+										<img :src="teacher.headimg" alt="">
+									</div>
+									<div class="teacher-name">
+										<p class="teacher-cname">{{teacher.cname}}</p>
+										<span class="teacher-ename">{{teacher.cnamespell}}</span>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="teacher-details">
+							<ul class="details-list">
+								<li v-for="(teacher, index) in teachers" :key="teacher.index" v-if="index == tabIndex" :style="{display:block?'block':''}">
+									<div class="teacher-info clearfix">
+										<div class="teacher-video fl-l">
+											<i class="icon-player"></i>
+										</div>
+										<div class="teacher-text fl-l">
+											<p class="teacher-name">{{teacher.cname}} <span>{{teacher.cnamespell}}</span></p>
+											<div class="star clearfix">
+												<span>评分</span>
+												<el-rate v-model="starValue" disabled text-color="#ff9900"></el-rate>
+											</div>
+											<p class="teacher-information">{{teacher.information}}</p>
+											<p class="teacher-num">剩余课时: {{teacher.num}}</p>
+										</div>
+									</div>
+									<div class="reservation-table">
+										<ul>
+											<li v-for="(rtdate, index) in rtdates" :key="rtdate.index">
+												<div class="table-date">
+													<ul>
+														<li>{{rtdate.day}}</li>
+													</ul>
+												</div>
+												<div class="table-time">
+													<ul>
+														<li>{{rtdate.time}}</li>
+													</ul>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</transition>
+			</div>
 		</div>
 	</div>
 </template>
@@ -52,11 +89,17 @@ export default {
 					return time.getTime() < Date.now();
 				}
 			},
+			tabIndex: '',
 			value1: '',
 			value2: '',
 			timeStamp: '',
 			teachers: [],
-			tz: ''
+			tz: '',
+			show: false,
+			starValue: 5,
+			block: false,
+			isFocus: 0,
+			rtdates: []
 		}
 	},
 	watch:{
@@ -86,6 +129,7 @@ export default {
 				this.timeStamp = timeStamp;
 				console.log(date);
 				this.teacherSearch();
+				this.show = true;
 			}else{
 				console.log('请选择完整的时间段');
 			}
@@ -129,8 +173,33 @@ export default {
 			}
 			axios.get(url,search,config)
 			.then(function (response) {
-				console.log(response.data.data);
 				that.teachers = response.data.data;
+				if (response.data.data == '') {
+					console.log('此时间段暂无老师');
+				}
+			})
+		},
+		tabs(num, id){
+			this.tabIndex = num;
+			let that=this;
+			// md5验证
+			let search = {
+				'teacher_id': id
+			}
+			let p = 'teacher_id='+id+'';
+			let tokens = md5('ilovewan' + p + 'banghanchen');
+			// ajax
+			let url = '/api/v1/onebyone/timelist?' + p;
+			let config = {
+				headers:{
+					versions: '1',
+					tokens: tokens,
+				}
+			}
+			axios.get(url,search,config)
+			.then(function (response) {
+				that.rtdates = (response.data.data).slice(0,7);
+				console.log(that.rtdates);
 			})
 		}
 	}
@@ -153,15 +222,32 @@ export default {
 		} 
 		.teacher-main{ padding: 0 20px; margin-top: 20px; border-top: 1px solid #F2F3F4;;
 			.teacher-list{ padding: 30px 0; width: 230px; border-right: 10px solid #f2f3f4;
-				ul{ margin-right: 20px; background: #F7F7F7; 
-					.teacher-item{ height: 100px; border: 1px solid #D9D9D9; border-top: 0; justify-content:center; align-items:Center;
+				ul{ margin-right: 20px; background: #F7F7F7; border-top: 1px solid #D9D9D9;
+					.teacher-item{ width: 190px; height: 100px; border: 1px solid #D9D9D9; border-top: 0; justify-content:center; align-items:Center;
 						.teacher-img{ width: 70px; height: 70px;}
-						.teacher-text{ margin-left: 15px;
+						.teacher-name{ margin-left: 15px;
 							.teacher-cname{ font-size: 16px; color: #333333;}
 							.teacher-ename{ display: inline-block; margin-top: 5px; font-size: 14px; color: #818181;}
 						}
 					}
 					.focus{ border: 1px solid #FF6325;}
+				}
+			}
+			.teacher-details{
+				.details-list li { background-color: #f2f3f4;
+					.teacher-info { padding: 30px 20px 20px; background-color: #fff;
+						.teacher-video{ width: 250px; height: 180px; background-color: #eee;}
+						.teacher-text{ margin-left: 20px; width: calc(~'100% - 270px');}
+							.teacher-name{ margin-top: 5px; font-size: 18px; color: #333333;
+								span{ margin-left: 5px; font-size: 15px; color: #818181;}
+							}
+							.star{ margin-top: 5px;
+								span{ float: left; font-size: 16px; color: #818181;}
+								.el-rate{ float: left; margin-left: 10px; height: 20px; line-height: 28px;}
+							}
+							.teacher-num{ margin-top: 5px; font-size: 16px; color: #818181;}
+							.teacher-information{ margin-top: 5px; font-size: 16px; color: #818181;}
+					}
 				}
 			}
 		}
