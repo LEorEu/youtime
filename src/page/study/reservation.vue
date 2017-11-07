@@ -35,19 +35,19 @@
 						</div>
 						<div class="teacher-details">
 							<ul class="details-list">
-								<li v-for="(teacher, index) in teachers" :key="teacher.index" v-if="index == tabIndex" :style="{display:block?'block':''}">
+								<li v-for="(teacherInfo, index) in teachers" :key="teacherInfo.index" v-if="index == tabIndex" :style="{display:block?'block':''}">
 									<div class="teacher-info clearfix">
 										<div class="teacher-video fl-l">
 											<i class="icon-player"></i>
 										</div>
 										<div class="teacher-text fl-l">
-											<p class="teacher-name">{{teacher.cname}} <span>{{teacher.cnamespell}}</span></p>
+											<p class="teacher-name">{{teacherInfo.cname}} <span>{{teacherInfo.cnamespell}}</span></p>
 											<div class="star clearfix">
 												<span>评分</span>
 												<el-rate v-model="starValue" disabled text-color="#ff9900"></el-rate>
 											</div>
-											<p class="teacher-information">{{teacher.information}}</p>
-											<p class="teacher-num">剩余课时: {{teacher.num}}</p>
+											<p class="teacher-information">{{teacherInfo.information}}</p>
+											<p class="teacher-num">剩余课时: {{teacherInfo.num}}</p>
 										</div>
 									</div>
 									<div class="reservation-table flex">
@@ -124,6 +124,7 @@ export default {
 				this.show = true;
 			}else{
 				console.log('请选择完整的时间段');
+				this.show = false;
 			}
 		},
 		GMTToStr(time){
@@ -191,7 +192,6 @@ export default {
 			axios.get(url,search,config)
 			.then(function (response) {
 				that.rtdates = (response.data.data).slice(0,7);
-				//console.log(that.rtdates);
 			})
 		}
 	}
