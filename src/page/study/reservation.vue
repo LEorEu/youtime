@@ -53,8 +53,9 @@
 									<div class="reservation-table flex">
 										<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
 											{{rtdate.day}}
-											<li class="time"  v-for="(item, index) in rtdate.time" :key="item.index">
-												{{item}}
+											<li class="time"  v-for="(item, itemI) in ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00']" :key="item.index+'time'">
+												
+												{{tebelRender(item,index)}}
 											</li>
 										</ul>
 									</div>
@@ -190,9 +191,22 @@ export default {
 			}
 			axios.get(url,search,config)
 			.then(function (response) {
+				let rtdates= (response.data.data).slice(0,7);
+				
 				that.rtdates = (response.data.data).slice(0,7);
-				//console.log(that.rtdates);
+				console.log(that.rtdates);
 			})
+		},
+		//表格渲染
+		tebelRender(item,index){
+		  let span ='可预约'
+		  if(this.rtdates.length>0){
+			for(let i=0;i<this.rtdates[index].time.length;i++){
+				if(item==this.rtdates[index].time[i]){
+					return(span)
+				}
+			}
+		  }
 		}
 	}
 }
