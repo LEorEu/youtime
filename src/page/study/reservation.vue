@@ -50,20 +50,14 @@
 											<p class="teacher-num">剩余课时: {{teacher.num}}</p>
 										</div>
 									</div>
-									<div class="reservation-table">
-										<ul>
-											<li v-for="(rtdate, index) in rtdates" :key="rtdate.index">
-												<div class="table-date">
-													<ul>
-														<li>{{rtdate.day}}</li>
-													</ul>
-												</div>
-												<div class="table-time">
-													<ul>
-														<li>{{rtdate.time}}</li>
-													</ul>
-												</div>
-											</li>
+									<div class="reservation-table flex">
+										<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
+											{{rtdate.day}}
+											<li class="time">18:00</li>
+											<li class="time">18:00</li>
+											<li class="time">18:00</li>
+											<li class="time">18:00</li>
+											<li class="time">18:00</li>
 										</ul>
 									</div>
 								</li>
@@ -199,7 +193,6 @@ export default {
 			axios.get(url,search,config)
 			.then(function (response) {
 				that.rtdates = (response.data.data).slice(0,7);
-				console.log(that.rtdates);
 			})
 		}
 	}
@@ -214,13 +207,13 @@ export default {
 		}
 		.reservation-subtitle{ margin-left: 10px; line-height: 60px; font-size: 14px; color: #999999;}
 	}
-	.reservation-main{ padding: 20px 0;  width: 100%; border-top: 10px solid #F2F3F4;
+	.reservation-main{ padding-top: 10px;  width: 100%; border-top: 10px solid #F2F3F4;
 		.time-select{ padding: 0 20px; 
 			.block{ margin-right: 20px;
 				.demonstration{ margin-right: 10px; font-size: 14px; color: #333;}
 			}
 		} 
-		.teacher-main{ padding: 0 20px; margin-top: 20px; border-top: 1px solid #F2F3F4;;
+		.teacher-main{ padding-left: 20px; margin-top: 20px; border-top: 1px solid #F2F3F4;;
 			.teacher-list{ padding: 30px 0; width: 230px; border-right: 10px solid #f2f3f4;
 				ul{ margin-right: 20px; background: #F7F7F7; border-top: 1px solid #D9D9D9;
 					.teacher-item{ width: 190px; height: 100px; border: 1px solid #D9D9D9; border-top: 0; justify-content:center; align-items:Center;
@@ -247,6 +240,11 @@ export default {
 							}
 							.teacher-num{ margin-top: 5px; font-size: 16px; color: #818181;}
 							.teacher-information{ margin-top: 5px; font-size: 16px; color: #818181;}
+					}
+					.reservation-table{ margin-top: 10px; padding: 20px; background-color: #fff;
+						.table-date{ margin-right: 15px; width: 100% / 7; text-align: center;
+							.time{ margin-top: 20px; border: 1px solid #eee; border-radius: 8px; background-color: #fff; color: #333;}
+						}
 					}
 				}
 			}
