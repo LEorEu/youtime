@@ -54,7 +54,7 @@
 										<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
 											{{rtdate.day}}
 											<li class="time" v-for="(item, itemI) in ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00']" :key="item.index+'time'">
-												<span>{{tebelRender(item,index)}}</span>
+												<span class="myspan" v-if='tebelRender(item,index)'>可预约</span>
 											</li>
 										</ul>
 									</div>
@@ -196,11 +196,11 @@ export default {
 		},
 		//表格渲染
 		tebelRender(item,index){
-			let span = '可预约'
+			//let span = '可预约'
 			if(this.rtdates.length>0){
 				for(let i=0;i<this.rtdates[index].time.length;i++){
 					if(item==this.rtdates[index].time[i]){
-						return(span)
+						return true
 					}
 				}
 			}
