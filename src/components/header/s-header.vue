@@ -19,7 +19,9 @@
 							<span class="el-dropdown-link">Hi，{{cname}}同学<i class="el-icon-arrow-down el-icon--right"></i></span>
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item>个人信息</el-dropdown-item>
-								<el-dropdown-item>退出登录</el-dropdown-item>
+								<el-dropdown-item>
+									<span @click="close()">退出登录</span>
+								</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
 					</li>
@@ -37,10 +39,21 @@ export default {
 		}
 	},
 	mounted(){
-		
+		this.checkLogin();
   	},
   	methods: {
-
+		checkLogin(){
+			if(!window.localStorage.getItem('id')){
+				//如果没有登录状态则跳转到登录页
+				this.$router.push('/login');
+			}
+		},
+		close(){
+			window.localStorage.setItem('id','');
+			window.localStorage.setItem('account','');
+			window.localStorage.setItem('cname','');
+			this.$router.push('/login');
+		}
 	}
 }
 </script>

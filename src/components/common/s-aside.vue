@@ -31,7 +31,7 @@ import axios from 'axios'
 export default {
 	data (){
 		return {
-			users:[],
+			users:[]
 		}
 	},
 	mounted(){
