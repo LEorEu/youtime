@@ -52,7 +52,7 @@
 									</div>
 									<div class="reservation-table flex">
 										<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
-											{{rtdate.day}}
+											<p>{{moment(rtdate.day).format('MM/DD')}}</p>
 											<li class="time" v-for="(item, itemI) in ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00']" :key="item.index+'time'">
 												<span>{{tebelRender(item,index)}}</span>
 											</li>
@@ -253,8 +253,9 @@ export default {
 					}
 					.reservation-table{ margin-top: 10px; padding: 20px; background-color: #fff;
 						.table-date{ width: 90px; text-align: center; box-sizing: border-box;
+							p{ margin-bottom: 10px; text-align: center; color: #666;}
 							.time{ width: 90px; height: 60px; border-top: 1px solid #E5D9D3; border-left: 1px solid #E5D9D3; background-color: #fff9f5;
-								span{ display: block; width: 90px; height: 60px;}
+								span{ display: block; width: 90px; height: 60px; line-height: 60px;}
 							}
 							.time:nth-last-child(1){ border-bottom: 1px solid #E5D9D3;}
 						}
