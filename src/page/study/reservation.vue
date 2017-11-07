@@ -53,11 +53,9 @@
 									<div class="reservation-table flex">
 										<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
 											{{rtdate.day}}
-											<li class="time">18:00</li>
-											<li class="time">18:00</li>
-											<li class="time">18:00</li>
-											<li class="time">18:00</li>
-											<li class="time">18:00</li>
+											<li class="time"  v-for="(item, index) in rtdate.time" :key="item.index">
+												{{item}}
+											</li>
 										</ul>
 									</div>
 								</li>
@@ -193,6 +191,7 @@ export default {
 			axios.get(url,search,config)
 			.then(function (response) {
 				that.rtdates = (response.data.data).slice(0,7);
+				//console.log(that.rtdates);
 			})
 		}
 	}
