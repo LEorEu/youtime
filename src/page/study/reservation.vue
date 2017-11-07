@@ -53,8 +53,8 @@
 									<div class="reservation-table flex">
 										<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
 											{{rtdate.day}}
-											<li class="time"  v-for="(item, index) in rtdate.time" :key="item.index">
-												{{item}}
+											<li class="time" v-for="(item, itemI) in ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00']" :key="item.index+'time'">
+												<span>{{tebelRender(item,index)}}</span>
 											</li>
 										</ul>
 									</div>
@@ -90,7 +90,6 @@ export default {
 			show: false,
 			starValue: 5,
 			block: false,
-			isFocus: 0,
 			rtdates: []
 		}
 	},
@@ -155,9 +154,9 @@ export default {
 				p += k+'='+search[k]+'&';
 			}
 			p = p.substring(0,p.length-1);
-			let tokens = md5('ilovewan' + p + 'banghanchen');
+			let tokens = md5(`ilovewan${p}banghanchen`);
 			// ajax
-			let url = '/api/v1/onebyone?' + p;
+			let url = `/api/v1/onebyone?${p}`;
 			let config = {
 				headers:{
 					versions: '1',
@@ -179,10 +178,10 @@ export default {
 			let search = {
 				'teacher_id': id
 			}
-			let p = 'teacher_id='+id+'';
-			let tokens = md5('ilovewan' + p + 'banghanchen');
+			let p = `teacher_id=${id}`;
+			let tokens = md5(`ilovewan${p}banghanchen`);
 			// ajax
-			let url = '/api/v1/onebyone/timelist?' + p;
+			let url = `/api/v1/onebyone/timelist?${p}`;
 			let config = {
 				headers:{
 					versions: '1',
@@ -191,8 +190,20 @@ export default {
 			}
 			axios.get(url,search,config)
 			.then(function (response) {
+				let rtdates= (response.data.data).slice(0,7);
 				that.rtdates = (response.data.data).slice(0,7);
 			})
+		},
+		//表格渲染
+		tebelRender(item,index){
+			let span = '可预约'
+			if(this.rtdates.length>0){
+				for(let i=0;i<this.rtdates[index].time.length;i++){
+					if(item==this.rtdates[index].time[i]){
+						return(span)
+					}
+				}
+			}
 		}
 	}
 }
@@ -241,8 +252,14 @@ export default {
 							.teacher-information{ margin-top: 5px; font-size: 16px; color: #818181;}
 					}
 					.reservation-table{ margin-top: 10px; padding: 20px; background-color: #fff;
-						.table-date{ margin-right: 15px; width: 100% / 7; text-align: center;
-							.time{ margin-top: 20px; border: 1px solid #eee; border-radius: 8px; background-color: #fff; color: #333;}
+						.table-date{ width: 90px; text-align: center; box-sizing: border-box;
+							.time{ width: 90px; height: 60px; border-top: 1px solid #E5D9D3; border-left: 1px solid #E5D9D3; background-color: #fff9f5;
+								span{ display: block; width: 90px; height: 60px;}
+							}
+							.time:nth-last-child(1){ border-bottom: 1px solid #E5D9D3;}
+						}
+						.table-date:nth-child(7){
+							.time{ border-right: 1px solid #E5D9D3;}
 						}
 					}
 				}
