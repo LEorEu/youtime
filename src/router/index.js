@@ -4,6 +4,9 @@ import Router from 'vue-router'
 // 首页
 import home from '../page/home'
 
+// 课程介绍
+import Curriculum from '../page/curriculum'
+
 // 登录
 import login from '../page/login'
 import tabmail from '../page/login/tabmail'
@@ -53,6 +56,11 @@ export default new Router({
     {
       path: '/home',
       component: home
+    },
+    //课程体系
+    {
+      path: '/curriculum',
+      component: Curriculum
     },
     //登录
     {

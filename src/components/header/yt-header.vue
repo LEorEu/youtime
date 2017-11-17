@@ -6,9 +6,10 @@
 			</div>
 			<nav class="nav fl-l">
 				<ul class="nav-menu clearfix">
+					<li><router-link to="/">首页</router-link></li>
 					<li><router-link to="/curriculum">课程介绍</router-link></li>
-					<li><router-link to="/studyidea">学习理念</router-link></li>
-					<li><router-link to="/teachers">师资力量</router-link></li>
+					<!-- <li><router-link to="/studyidea">学习理念</router-link></li>
+					<li><router-link to="/teachers">师资力量</router-link></li> -->
 				</ul>
 			</nav>
 			<div class="nav nav-login fl-r">
