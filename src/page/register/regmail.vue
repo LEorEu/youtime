@@ -35,6 +35,7 @@ export default {
   methods: {
     // 注册接入
     reg :function(){
+        let that = this;
         if (this.regMail == '' || this.regPwd == '') {
             console.log('请填写完整的资料')
         }else{
@@ -75,15 +76,23 @@ export default {
                     window.localStorage.setItem('account',response.data.data.mail);
                     window.location.href = '/study';
                 }else if(response.data.errCode == '30002'){
-                    console.log('邮箱或密码格式错误，请输入正确的邮箱或6-16位密码');
+                    that.$alert('邮箱或密码格式错误，请输入正确的邮箱或6-16位密码', '注册失败', {
+						confirmButtonText: '确定',
+					})
                 }else if(response.data.errCode == '30007'){
-                    console.log('该邮箱已注册');
+                    that.$alert('该邮箱已注册', '注册失败', {
+						confirmButtonText: '确定',
+					})
                 }else{
-                    console.log('注册失败');
+                    that.$alert('注册失败', '注册失败', {
+						confirmButtonText: '确定',
+					})
                 }
             })
             .catch(function (error) {
-                console.log('系统错误');
+                that.$alert('系统错误', response.data.errMsg, {
+                    confirmButtonText: '确定',
+                })
             })
         }
     }

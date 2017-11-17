@@ -21,10 +21,16 @@ import Study from '../page/study'
 import MyCourse from '../page/study/mycourse'
 import Reservation from '../page/study/reservation'
 import Guide from '../page/study/guide'
+import Details from '../page/study/details'
 import Cart from '../page/study/cart'
 import Pay from '../page/study/pay'
 import Undone from '../page/study/children/undone'
 import Complete from '../page/study/children/complete'
+
+import MyScore from '../page/study/myscore'
+
+// 个人中心
+import Ucenter from '../page/usercenter'
 
 // --------------------------------------------
 
@@ -41,7 +47,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/home'
     },
     //首页
     {
@@ -76,6 +82,11 @@ export default new Router({
           component: regtel
       }]
     },
+    // 个人中心
+    {
+      path: '/usercenter',
+      component: Ucenter
+    },
     //学习
     {
       path: '/study',
@@ -94,14 +105,27 @@ export default new Router({
           component: Complete
         }]
       },
+      // 预约课程
       {
         path: 'reservation',
         component: Reservation
       },
+      // 课前指导
       {
         path: 'guide',
         component: Guide
       },
+      // 课时明细
+      {
+        path: 'details',
+        component: Details
+      },
+      // 我的成绩
+      {
+        path: 'myscore',
+        component: MyScore
+      },
+      // 购买课程
       {
         path: 'cart',
         component: Cart
@@ -110,16 +134,6 @@ export default new Router({
         path: 'pay',
         component: Pay
       }]
-    },
-    //购买中心
-    // {
-    //   path: '/cart',
-    //   component: Cart,
-    //   redirect: '/cart',
-    //   children: [{
-    //     path: 'pay',
-    //     component: Pay
-    //   }]
-    // }
+    }
   ]
 })

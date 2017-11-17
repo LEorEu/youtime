@@ -107,6 +107,7 @@ export default {
     },
     // 注册接入
     reg :function(){
+        let that = this;
         if (this.regCountry == '' || this.regTel == '' || this.regSms == '' || this.regPwd == '') {
             console.log('请填写完整的资料')
         }else{
@@ -150,17 +151,27 @@ export default {
                     window.localStorage.setItem('account',response.data.data.phone);
                     window.location.href = '/study';
                 }else if(response.data.errCode == '30002'){
-                    console.log('手机号或密码格式错误，请输入正确的手机号或6-16位密码');
+                    that.$alert('手机号或密码格式错误，请输入正确的手机号或6-16位密码', '注册失败', {
+						confirmButtonText: '确定',
+					})
                 }else if(response.data.errCode == '30003'){
-                    console.log('验证码错误');
+                    that.$alert('验证码错误', '注册失败', {
+						confirmButtonText: '确定',
+					})
                 }else if(response.data.errCode == '30007'){
-                    console.log('该手机号已注册');
+                    that.$alert('该手机号已注册', '注册失败', {
+						confirmButtonText: '确定',
+					})
                 }else{
-                    console.log('注册失败');
+                    that.$alert('注册失败', '注册失败', {
+						confirmButtonText: '确定',
+					})
                 }
             })
             .catch(function (error) {
-                console.log('系统错误');
+                that.$alert('系统错误', '注册失败', {
+                    confirmButtonText: '确定',
+                })
             })
         }
     }

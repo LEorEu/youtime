@@ -17,6 +17,12 @@
 					<router-link to="/study/reservation" active-class="router-link-active">预约课程</router-link>
 				</li>
 				<li class="nav-item">
+					<router-link to="/study/myscore" active-class="router-link-active">我的成绩</router-link>
+				</li>
+				<li class="nav-item">
+					<router-link to="/study/details" active-class="router-link-active">课时明细</router-link>
+				</li>
+				<li class="nav-item">
 					<router-link to="/study/guide" active-class="router-link-active">课前指导</router-link>
 				</li>
 			</ul>

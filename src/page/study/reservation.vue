@@ -172,9 +172,13 @@ export default {
 			axios.get(url,search,config)
 			.then(function (response) {
 				that.teachers = response.data.data;
-				that.tabs(0,that.teachers[0].tid);
 				if (response.data.data == '') {
-					console.log('此时间段暂无老师');
+					that.show = false;
+					that.$alert('此时间段暂无老师', response.data.errMsg, {
+						confirmButtonText: '确定',
+					})
+				}else{
+					that.tabs(0,that.teachers[0].tid);
 				}
 			})
 		},

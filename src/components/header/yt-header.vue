@@ -13,7 +13,7 @@
 			</nav>
 			<div class="nav nav-login fl-r">
 				<ul>
-					<li><router-link to="/login">购买课程</router-link></li>
+					<!-- <li><router-link to="/login">购买课程</router-link></li> -->
 					<li><router-link to="/login">登录</router-link></li>
 				</ul>
 			</div>

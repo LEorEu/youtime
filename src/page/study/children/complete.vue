@@ -12,13 +12,24 @@
 							<p>{{moment.unix(parseInt(course.datetimes)).format('MM月DD日 HH:mm')}}</p>
 						</div>
 						<div class="course-info clearfix">
-							<div class="course-type fl-l" :class="typeClass(course.type)">{{typeDistinguish(course.type)}}</div>
-							<div class="course-text fl-l">
-								<h2 class="course-title">{{course.title}}</h2>
-								<p class="course-subtitle">{{course.describe}}</p>
-								<p class="course-teacher">老师：{{course.ename}}</p>
+							<div class="course-img fl-l">
+								<img :src="course.url_image" alt="">
 							</div>
-							<div class="course-btns fl-l clearfix">
+							<div class="course-text fl-l">
+								<div class="course-title">
+									<div class="course-type fl-l" :class="typeClass(course.type)">{{typeDistinguish(course.type)}}</div>
+									<h2>{{course.title}}</h2>
+								</div>
+								<p class="course-subtitle">{{course.describe}}</p>
+								<p class="course-datetimes">{{moment.unix(parseInt(course.datetimes)).format('MM月DD日 HH:mm')}}</p>
+								<div class="course-teacher flex">老师：
+									<div class="teacher-img">
+										<img :src="course.headimg" alt="">
+									</div>
+									<p>{{course.ename}}</p>
+								</div>
+							</div>
+							<div class="course-btns fl-r clearfix">
 								<button class="course-btn fl-r">复习</button>
 							</div>
 						</div>
@@ -73,7 +84,6 @@ export default {
 			}
 			axios.post(url,courseList,config)
 			.then(function (response) {
-				console.log(response.data.data)
 				that.courses=response.data.data
 			})
 		},
@@ -134,12 +144,20 @@ export default {
 				.typev4{background-color: #60C5F7;}
 				.typelive{background-color: #F9D872;}
 				.typetest{background-color: #F9D872;}
-				.course-text{ margin-left: 15px; margin-bottom: 40px;
-					.course-title{font-size: 18px; color: #4d4d4d;}
-					.course-subtitle{ margin-top: 20px; font-size: 16px; color: #818181;}
-					.course-teacher{ margin-top: 20px; font-size: 16px; color: #818181;}
+				.course-img{ width: 330px; height: 230px; overflow: hidden; text-align: center; color: #fff;}
+				.course-text{ width: calc(~'100% - 345px'); margin-left: 15px; margin-bottom: 10px;
+					.course-title{font-size: 18px; line-height: 30px; color: #4d4d4d;
+						.course-type{ margin-right: 15px; width: 50px; height: 30px; line-height: 30px; text-align: center; color: #fff;}
+						.typev1{background-color: #F9D872;}
+						.typev4{background-color: #60C5F7;}
+					}
+					.course-subtitle{ margin-top: 10px; font-size: 16px; color: #818181;}
+					.course-datetimes{ margin-top: 10px; font-size: 16px; color: #818181;}
+					.course-teacher{ margin-top: 10px; font-size: 16px; color: #818181;
+						.teacher-img{ margin-left: 5px; width: 48px; height: 48px; border-radius: 100%; overflow: hidden;}
+						p{ margin-left: 10px; line-height: 48px;}
+					}
 				}
-				.course-btns{ width: 100%;}
 				.course-btn{ width: 140px; height: 40px; font-size: 16px; background-color: #fff; color: #727272; border: 1px solid #D1D1D1; border-radius: 4px; cursor: pointer;}
 			}
 		}
