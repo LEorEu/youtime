@@ -7,6 +7,17 @@ import home from '../page/home'
 // 课程介绍
 import Curriculum from '../page/curriculum'
 
+// 介绍
+import china from '../page/china'
+import landscape from '../page/china/landscape'
+import story from '../page/china/story'
+import newchina from '../page/china/newchina'
+import art from '../page/china/art'
+import chinafood from '../page/china/chinafood'
+import folk from '../page/china/folk'
+import poetry from '../page/china/poetry'
+import recite from '../page/china/recite'
+
 // 登录
 import login from '../page/login'
 import tabmail from '../page/login/tabmail'
@@ -61,6 +72,44 @@ export default new Router({
     {
       path: '/curriculum',
       component: Curriculum
+    },
+    //介绍
+    {
+      path: '/china',
+      component: china,
+      redirect: '/china/landscape',
+      children: [{
+        path: 'landscape',
+        component: landscape
+      },
+      {
+        path: 'story',
+        component: story
+      },
+      {
+        path: 'newchina',
+        component: newchina
+      },
+      {
+        path: 'art',
+        component: art
+      },
+      {
+        path: 'chinafood',
+        component: chinafood
+      },
+      {
+        path: 'folk',
+        component: folk
+      },
+      {
+        path: 'poetry',
+        component: poetry
+      },
+      {
+        path: 'recite',
+        component: recite
+      }]
     },
     //登录
     {

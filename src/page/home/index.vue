@@ -22,7 +22,7 @@
       <div class="container">
         <div class="section-title">
           <h1>我们的优势</h1>
-          <p>多元化课程形式<br/>标准课程+自选课题，满足个性化学习需求</p>
+          <p>自主研发教材，名校老师授课<br/>多元化课程形式，满足个性化学习需求</p>
         </div>
         <div class="type-list">
           <!-- <ul class="clearfix">
@@ -41,13 +41,14 @@
     </section>
     <section class="section s4">
       <div class="section-title">
-        <h1>视频在线教学，在家跟老师 “面对面” 互动<br/>全中文沉浸式课堂环境，随时随地高效学习</h1>
+        <h1>普通话流利就能做中文老师？No! <br/>您所关心的，就是我们关注的</h1>
       </div>
     </section>
     <section class="teachers section s5">
       <div class="container">
         <div class="section-title">
           <h1>精选优质教师</h1>
+          <p>著名高校和重点中学的优秀老师为学生授课<br/>让孩子们在快乐中学习汉语，感受汉语言的美妙</p>
         </div>
         <div class="advantage-main">
           <ul class="clearfix">
@@ -232,14 +233,14 @@ export default {
     }
   }
   .teachers{
-    .advantage-main { margin-top: 40px;
+    .advantage-main { margin-top: 40px; padding: 0 50px;
       .ad{ float: left; margin-right: 5%; width: 30%;
-        i{ display: block; margin: 0 auto; width: 120px; height: 120px; background-position: center; background-size: 70%; background-repeat: no-repeat;}
-        .icon-teachera{ background-image: url('../../images/icon-teachera.png');}
-        .icon-teacherb{ background-image: url('../../images/icon-teacherb.png'); background-size: 80%;}
-        .icon-teacherc{ background-image: url('../../images/icon-teacherc.png');}
+        i{ display: block; margin: 0 auto; width: 120px; height: 120px; background-position: center; background-repeat: no-repeat;}
+        .icon-teachera{ background-image: url('../../images/icon-teachera.png'); background-size: 50%;}
+        .icon-teacherb{ background-image: url('../../images/icon-teacherb.png'); background-size: 60%;}
+        .icon-teacherc{ background-image: url('../../images/icon-teacherc.png'); background-size: 45%;}
         h3{ margin-top: 15px; text-align: center; font-size: 22px; color: #333;}
-        p{ margin-top: 15px; text-align: center; font-size: 14px; color: #333;}
+        p{ margin-top: 15px; text-align: center; font-size: 14px; line-height: 24px; color: #666;}
       }
       .ad:nth-child(3){ margin-right: 0%;}
     }
