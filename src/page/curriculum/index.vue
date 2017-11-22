@@ -9,7 +9,7 @@
       <div class="container">
         <div class="section-title">
           <h1>我们的课程</h1>
-          <p>标准课程+精品公开课<br/>学习最美华语，掌握标准发音，感受祖国文化</p>
+          <p>标准课程+精品公开课<br/>学习最美华语，掌握标准发音，感受中国文化</p>
         </div>
         <div class="features-list">
           <ul class="clearfix">
@@ -31,11 +31,12 @@
       <div class="container">
         <div class="section-title">
           <h1>主修进阶课程体系</h1>
-          <p>快速掌握800个核心字词 ，普通话、阅读、写作能力综合提升<br/>自主知识产权教材、课件</p>
+          <p>快速掌握600个核心字词 ，900个基础汉字。 口语表达能力、阅读能力、写作能力综合提升<br/>自主知识产权教材、课件</p>
         </div>
         <div class="c-box">
           <div class="c-img">
             <img src="../../../static/img/level.jpg">
+            <p>HSK是一项国际汉语能力标准化考试，重点考查汉语非第一语言的考生在生活、学习和工作中运用汉语进行交际的能力。<br/>YCT是一项国际汉语能力标准化考试，考查汉语非第一语言的中小学生在日常生活和学习中运用汉语的能力。</p>
           </div>
         </div>
       </div>
@@ -43,14 +44,13 @@
     <section class="section c3">
       <div class="c-mask"></div>
       <div class="section-title">
-        <h1>掌握标准的华语发音方式<br/>领悟中华文化的博大精深</h1>
+        <h1>掌握标准华语<br/>感悟中华文化</h1>
       </div>
     </section>
     <section class="section c4">
       <div class="container">
         <div class="section-title">
           <h1>多主题文化拓展</h1>
-          <p>情系祖国母亲，寄托无限乡愁</p>
         </div>
         <div class="item-list">
           <ul class="clearfix" id="itemeach">
@@ -187,6 +187,7 @@ export default {
   .c-box{ margin-top: 40px;
     .c-img{ margin: 0 auto; width: 80%; text-align: center;
       img{ display: inline-block;}
+      p{ margin-top: 10px; padding-left: 140px; font-size: 14px; line-height: 24px; color: #818181;}
     }
   }
 }

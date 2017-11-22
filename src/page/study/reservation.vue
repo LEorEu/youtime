@@ -160,16 +160,9 @@ export default {
 				p += k+'='+search[k]+'&';
 			}
 			p = p.substring(0,p.length-1);
-			let tokens = md5(`ilovewan${p}banghanchen`);
 			// ajax
 			let url = `/api/v1/onebyone?${p}`;
-			let config = {
-				headers:{
-					versions: '1',
-					tokens: tokens,
-				}
-			}
-			axios.get(url,search,config)
+			axios.get(url,search)
 			.then(function (response) {
 				that.teachers = response.data.data;
 				if (response.data.data == '') {

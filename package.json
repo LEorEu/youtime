@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.17.0",
     "blueimp-md5": "^2.10.0",
+    "braintree-web": "^3.26.0",
     "element-ui": "^2.0.2",
     "jstz": "^2.0.0",
     "moment": "^2.19.1",

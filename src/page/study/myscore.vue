@@ -41,9 +41,7 @@
 								<div class="skill-list">
 									<ul class="clearfix">
 										<li class="skill-item" v-for="(skill, index) in skills" :key="skill.index">
-											<div class="item-img">
-												<img :src="skill.img" alt="">
-											</div>
+											<i class="item-icon"></i>
 											<h5>{{typeSkill(skill.type)}}</h5>
 											<p>{{skill.desc}}</p>
 										</li>
@@ -208,10 +206,15 @@ export default {
 					h3{ font-size: 24px; font-weight: 500; color: #ff6325;}
 					.skill-list{ margin-top: 20px;
 						.skill-item{ margin-bottom: 15px; float: left; width: 50%;
-							.item-img{ float: left; margin-right: 10px; width: 84px; height: 84px; background-color: #f2f3f4; border-radius: 100%; overflow: hidden;}
+							.item-icon{ display: block; float: left; margin-right: 10px; width: 84px; height: 84px; background-size: 84px;}
 							h5{ margin-top: 5px; font-size: 18px; color: #333;}
 							p{ margin-top: 5px; padding-right: 50px; font-size: 14px; color: #666;}
 						}
+						.skill-item:nth-child(1) .item-icon{ background-image: url('../../../static/img/icon-listen.png');}
+						.skill-item:nth-child(2) .item-icon{ background-image: url('../../../static/img/icon-talk.png');}
+						.skill-item:nth-child(3) .item-icon{ background-image: url('../../../static/img/icon-read.png');}
+						.skill-item:nth-child(4) .item-icon{ background-image: url('../../../static/img/icon-write.png');}
+						.skill-item:nth-child(5) .item-icon{ background-image: url('../../../static/img/icon-chinese.png');}
 					}
 				}
 			}
