@@ -90,7 +90,6 @@ export default {
 				if (response.data.errCode == 0) {
 					that.ocs = response.data.data['1v1'];
 					that.fcs = response.data.data['1v4'];
-					console.log(that.ocs);
 				}else{
 					console.log('没有数据');
 				}

@@ -1,6 +1,6 @@
 <template>
 	<div class="study">
-		<s-header></s-header>
+		<yt-header></yt-header>
 		<div class="main-container flex">
 			<s-aside></s-aside>
 			<div class="main-content">
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import sHeader from '../../components/header/s-header'
+import ytHeader from '../../components/header/yt-header'
 import sAside from '../../components/common/s-aside'
 
 export default {
   components: {
-	's-header': sHeader,
+	'yt-header': ytHeader,
 	's-aside': sAside
   }
 }

@@ -14,13 +14,67 @@
 			</nav>
 			<div class="nav nav-login fl-r">
 				<ul>
-					<!-- <li><router-link to="/login">购买课程</router-link></li> -->
-					<li><router-link to="/login">登录</router-link></li>
+					<li><router-link to="/study/cart">购买课程</router-link></li>
+					<li v-show="loginStatus == 0" :style="{display:block?'block':''}">
+						<el-dropdown>
+							<span class="el-dropdown-link">Hi，{{cname}}同学<i class="el-icon-arrow-down el-icon--right"></i></span>
+							<el-dropdown-menu slot="dropdown">
+								<router-link to="/usercenter">
+									<el-dropdown-item>个人信息</el-dropdown-item>
+								</router-link>
+								<!-- <el-dropdown-item>我的订单</el-dropdown-item> -->
+								<!-- <router-link to="/help">
+									<el-dropdown-item>帮助与反馈</el-dropdown-item>
+								</router-link> -->
+								<el-dropdown-item>
+									<span @click="close()">退出登录</span>
+								</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+					</li>
+					<li v-show="loginStatus == 1" :style="{display:block?'block':''}"><router-link to="/login">登录</router-link></li>
+					<li v-show="loginStatus == 1" :style="{display:block?'block':''}"><router-link to="/register">注册</router-link></li>
 				</ul>
 			</div>
 		</div>
 	</el-header>
 </template>
+
+<script>
+export default {
+	data(){
+		return{
+			cname: window.localStorage.getItem('cname'),
+			loginStatus: '',
+			block: false
+		}
+	},
+	mounted(){
+		this.checkLogin();
+	},
+	watch: {
+		"$route": "checkLogin"
+	},
+  	methods: {
+		checkLogin(){
+			if(!window.localStorage.getItem('id')){
+				//如果没有登录状态则跳转到登录页
+				this.loginStatus == 1;
+				console.log(1);
+			}else{
+				this.loginStatus == 0;
+				console.log(0);
+			}
+		},
+		close(){
+			window.localStorage.setItem('id','');
+			window.localStorage.setItem('account','');
+			window.localStorage.setItem('cname','');
+			this.$router.push('/login');
+		}
+	}
+}
+</script>
 
 <style lang="less" scoped>
 	.el-header{ background-color: #FF6325;
@@ -39,7 +93,11 @@
 			li{ list-style:none; float:left;
 				a{ display:block;padding:0 15px;width: 100%; line-height: 60px; font-size: 16px; color: #fff;;}
 				a:hover{ transition: all .3s; color: #FF6325; background-color: #fff;}
+				.el-dropdown{ margin-left: 20px;
+					span{ line-height: 60px; font-size: 14px; color: #fff;}
+				} 
 			}
 		}
 	}
+	.el-dropdown-menu__item{ text-align: center;}
 </style>

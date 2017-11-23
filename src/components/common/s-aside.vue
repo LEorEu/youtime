@@ -42,8 +42,15 @@ export default {
 	},
 	mounted(){
 		this.studentInfo();
+		this.checkLogin();
 	},
 	methods:{
+		checkLogin(){
+			if(!window.localStorage.getItem('id')){
+				//如果没有登录状态则跳转到登录页
+				this.$router.push('/login');
+			}
+		},
 		studentInfo(){
 			let that=this;
 			let ls = window.localStorage.getItem('id');

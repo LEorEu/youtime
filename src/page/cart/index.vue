@@ -1,6 +1,6 @@
 <template>
 	<div class="cart">
-		<s-header></s-header>
+		<yt-header></yt-header>
 		<div class="main-container flex">
 			<s-aside></s-aside>
 			<div class="main-content">

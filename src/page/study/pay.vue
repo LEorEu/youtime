@@ -31,7 +31,7 @@
 			</div>	
 			<div class="pay-btn">
 				<p>购买即代表同意<span>《优唐中文课程服务协议》</span></p>
-				<button>确认支付</button>
+				<button @click="createsale()">确认支付</button>
 			</div>	
 		</div>
 	</div>
@@ -39,18 +39,17 @@
 
 <script>
 import axios from 'axios'
-import client from 'braintree-web/client'
-import paypalCheckout from 'braintree-web/paypal-checkout'
+import md5 from 'blueimp-md5'
 
   export default {
     data() {
       return {
-          resource: ''
+		  resource: '',
+		  paypalToken: ''
       }
 		},
 		mounted(){
 			this.getInfo();
-			this.paypal();
 		},
 		methods:{
 			getInfo(){
@@ -72,30 +71,36 @@ import paypalCheckout from 'braintree-web/paypal-checkout'
 				.then(function (response) {
 					that.resource = response.data.data;
 				})
+				axios.get('/api/v1/test_paypal_cilenttoken')
+				.then(function (response) {
+					that.paypalToken = response.data.data.clientToken;
+					that.paypal();
+				})
 			},
 			currency(item){
 				let text='';
 				switch(item){
-						case "USD":
-								text='$';
-								break;
-						case "EUR":
-								text='€';
-								break;
-						case "GBP":
-								text='￡';
-								break;
-						case "RMB":
-								text='¥';
-								break;
+					case "USD":
+							text='$';
+							break;
+					case "EUR":
+							text='€';
+							break;
+					case "GBP":
+							text='￡';
+							break;
+					case "RMB":
+							text='¥';
+							break;
 				}
 				return text;
 			},
 			paypal(){
+				let that=this;
 				paypal.Button.render({
 					braintree: braintree,
 					client: {
-						sandbox: paypal.request.get('/demo/checkout/api/braintree/client-token/'),
+						sandbox: this.paypalToken,
 						production: '<insert production auth key>'
 					},
 					env: 'sandbox', // sandbox | production
@@ -104,7 +109,7 @@ import paypalCheckout from 'braintree-web/paypal-checkout'
 							payment: {
 								transactions: [
 									{
-										amount: { total: '0.01', currency: 'USD' }
+										amount: { total: that.resource.discount_price, currency: that.$route.query.code }
 									}
 								]
 							}
@@ -112,11 +117,47 @@ import paypalCheckout from 'braintree-web/paypal-checkout'
 					},
 					onAuthorize: function(data, actions) {
 						console.log('Braintree nonce:', data.nonce);
+						that.createsale(data.nonce);
 						return actions.payment.get().then(function(payment) {
 							console.log('Payment details:', payment);
 						});
 					}
 				}, '#paypal-button-container');
+			},
+			createsale(nonce){
+				let that=this;
+				// md5验证
+				let info = {
+					'payment_method_nonce': nonce,
+					'tokenid': 93,
+					'shopid': this.$route.query.id,
+					'amount': this.resource.discount_price,
+					'userid': window.localStorage.getItem('id'),
+					'merchantAccountId': this.$route.query.code
+				},
+				keys = Object.keys(info),
+				i, len = keys.length;
+				keys.sort();
+				let p = '';
+				for (i = 0; i < len; i++) {
+					let k = keys[i];
+					p += k+'='+info[k]+'&';
+				}
+				p = p.substring(0,p.length-1);
+				let tokens = md5(`ilovewan${p}banghanchen`);
+				// ajax
+				let url = '/api/v1/paypal_createsale';
+				let config = {
+					headers:{
+						versions: '1',
+						tokens: tokens,
+					}
+				}
+				console.log(info);
+				axios.post(url,info,config)
+				.then(function (response) {
+					console.log(response);
+				})
 			}
 		}
   }
