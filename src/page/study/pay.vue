@@ -27,7 +27,7 @@
 					<el-radio border label="支付宝"></el-radio>
 					<el-radio border label="微信"></el-radio>
 				</el-radio-group> -->
-
+				<div id="paypal-button-container"></div>
 			</div>	
 			<div class="pay-btn">
 				<p>购买即代表同意<span>《优唐中文课程服务协议》</span></p>
@@ -92,31 +92,31 @@ import paypalCheckout from 'braintree-web/paypal-checkout'
 				return text;
 			},
 			paypal(){
-        paypal.Button.render({
-            braintree: braintree,
-            client: {
-                sandbox: paypal.request.get('/demo/checkout/api/braintree/client-token/'),
-                production: '<insert production auth key>'
-            },
-            env: 'sandbox', // sandbox | production
-            payment: function(data, actions) {
-                return actions.payment.create({
-                    payment: {
-                        transactions: [
-                            {
-                                amount: { total: '0.01', currency: 'USD' }
-                            }
-                        ]
-                    }
-                });
-            },
-            onAuthorize: function(data, actions) {
-                console.log('Braintree nonce:', data.nonce);
-                return actions.payment.get().then(function(payment) {
-                    console.log('Payment details:', payment);
-                });
-            }
-        }, '#paypal-button-container');
+				paypal.Button.render({
+					braintree: braintree,
+					client: {
+						sandbox: paypal.request.get('/demo/checkout/api/braintree/client-token/'),
+						production: '<insert production auth key>'
+					},
+					env: 'sandbox', // sandbox | production
+					payment: function(data, actions) {
+						return actions.payment.create({
+							payment: {
+								transactions: [
+									{
+										amount: { total: '0.01', currency: 'USD' }
+									}
+								]
+							}
+						});
+					},
+					onAuthorize: function(data, actions) {
+						console.log('Braintree nonce:', data.nonce);
+						return actions.payment.get().then(function(payment) {
+							console.log('Payment details:', payment);
+						});
+					}
+				}, '#paypal-button-container');
 			}
 		}
   }
