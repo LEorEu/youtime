@@ -15,7 +15,7 @@
 			<div class="nav nav-login fl-r">
 				<ul>
 					<li><router-link to="/study/cart">购买课程</router-link></li>
-					<li v-show="loginStatus == 0" :style="{display:block?'block':''}">
+					<li v-if="this.checkLogin()">
 						<el-dropdown>
 							<span class="el-dropdown-link">Hi，{{cname}}同学<i class="el-icon-arrow-down el-icon--right"></i></span>
 							<el-dropdown-menu slot="dropdown">
@@ -32,8 +32,10 @@
 							</el-dropdown-menu>
 						</el-dropdown>
 					</li>
-					<li v-show="loginStatus == 1" :style="{display:block?'block':''}"><router-link to="/login">登录</router-link></li>
-					<li v-show="loginStatus == 1" :style="{display:block?'block':''}"><router-link to="/register">注册</router-link></li>
+
+					<li v-else><router-link to="/login">登录</router-link>
+						<span>注册</span>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -61,9 +63,10 @@ export default {
 				//如果没有登录状态则跳转到登录页
 				this.loginStatus == 1;
 				console.log(1);
+				return false
 			}else{
 				this.loginStatus == 0;
-				console.log(0);
+				return true
 			}
 		},
 		close(){
