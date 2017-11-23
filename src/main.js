@@ -9,13 +9,14 @@ import md5 from 'blueimp-md5'
 
 import moment from 'moment'
 import ElementUI from 'element-ui'
+import client from "braintree-web/client";
+import paypalCheckout from "braintree-web/paypal-checkout";
 import 'element-ui/lib/theme-chalk/index.css'
 import './style/style.css'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.moment = moment
-
 /* eslint-disable no-new */
 new Vue({
   router,
