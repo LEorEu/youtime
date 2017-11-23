@@ -43,9 +43,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
+  .login{ 
+      width: 100%;
+      height: 100%;
+  }
   .login-bg{
     width: 100%;
-    height: 700px;
+    height: 100%;
     background-image: url('../../images/133205674464.jpg');
     background-repeat: no-repeat;
     background-position: center;

@@ -4,6 +4,20 @@ import Router from 'vue-router'
 // 首页
 import home from '../page/home'
 
+// 课程介绍
+import Curriculum from '../page/curriculum'
+
+// 介绍
+import china from '../page/china'
+import landscape from '../page/china/landscape'
+import story from '../page/china/story'
+import newchina from '../page/china/newchina'
+import art from '../page/china/art'
+import chinafood from '../page/china/chinafood'
+import folk from '../page/china/folk'
+import poetry from '../page/china/poetry'
+import recite from '../page/china/recite'
+
 // 登录
 import login from '../page/login'
 import tabmail from '../page/login/tabmail'
@@ -21,10 +35,16 @@ import Study from '../page/study'
 import MyCourse from '../page/study/mycourse'
 import Reservation from '../page/study/reservation'
 import Guide from '../page/study/guide'
+import Details from '../page/study/details'
 import Cart from '../page/study/cart'
 import Pay from '../page/study/pay'
 import Undone from '../page/study/children/undone'
 import Complete from '../page/study/children/complete'
+
+import MyScore from '../page/study/myscore'
+
+// 个人中心
+import Ucenter from '../page/usercenter'
 
 // --------------------------------------------
 
@@ -41,12 +61,55 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/home'
     },
     //首页
     {
       path: '/home',
       component: home
+    },
+    //课程体系
+    {
+      path: '/curriculum',
+      component: Curriculum
+    },
+    //介绍
+    {
+      path: '/china',
+      component: china,
+      redirect: '/china/landscape',
+      children: [{
+        path: 'landscape',
+        component: landscape
+      },
+      {
+        path: 'story',
+        component: story
+      },
+      {
+        path: 'newchina',
+        component: newchina
+      },
+      {
+        path: 'art',
+        component: art
+      },
+      {
+        path: 'chinafood',
+        component: chinafood
+      },
+      {
+        path: 'folk',
+        component: folk
+      },
+      {
+        path: 'poetry',
+        component: poetry
+      },
+      {
+        path: 'recite',
+        component: recite
+      }]
     },
     //登录
     {
@@ -76,6 +139,11 @@ export default new Router({
           component: regtel
       }]
     },
+    // 个人中心
+    {
+      path: '/usercenter',
+      component: Ucenter
+    },
     //学习
     {
       path: '/study',
@@ -94,14 +162,27 @@ export default new Router({
           component: Complete
         }]
       },
+      // 预约课程
       {
         path: 'reservation',
         component: Reservation
       },
+      // 课前指导
       {
         path: 'guide',
         component: Guide
       },
+      // 课时明细
+      {
+        path: 'details',
+        component: Details
+      },
+      // 我的成绩
+      {
+        path: 'myscore',
+        component: MyScore
+      },
+      // 购买课程
       {
         path: 'cart',
         component: Cart
@@ -110,16 +191,6 @@ export default new Router({
         path: 'pay',
         component: Pay
       }]
-    },
-    //购买中心
-    // {
-    //   path: '/cart',
-    //   component: Cart,
-    //   redirect: '/cart',
-    //   children: [{
-    //     path: 'pay',
-    //     component: Pay
-    //   }]
-    // }
+    }
   ]
 })
