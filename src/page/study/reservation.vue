@@ -13,10 +13,11 @@
 							<ul class="table-time">
 								<li v-for="(time, index) in times" :key="time.index">{{time}}</li>
 							</ul>
-							<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
-								<p>{{moment.unix(dates[index-1]).format('MM/DD')}}</p>
+							<ul class="table-date" v-for="(rtdate, dindex) in rtdates" :key="rtdate.index">
+								<p>{{moment.unix(dates[dindex-1]).format('MM/DD')}}</p>
+								<input type="hidden">
 								<li class="time" v-for="(item, index) in rtdate" :key="item.index">
-									<span class="myspan" v-if='tebelRender(item.status)' @click="makeclass(item.time)">可预约</span>
+									<span class="myspan" v-if='tebelRender(item.status)' @click="makeclass(dindex,item.time)">可预约</span>
 								</li>
 							</ul>
 						</div>
@@ -76,7 +77,7 @@ export default {
 			let config = {
 				headers:{
 					versions: '1',
-					tokens: tokens,
+					tokens: tokens
 				}
 			}
 			axios.get(url,time_zone,config)
@@ -92,85 +93,88 @@ export default {
 			}
 		},
 		// 点击约课状态
-		makeclass(date,time) {
-			console.log(date,time);
+		makeclass(index,time) {
 			let that=this;
-			let dateTime = date + ' ' + time + ':000';
-			let newDate = new Date(dateTime);
-			let timeStamp = Date.parse(newDate);
-			timeStamp = timeStamp.toString().substring(0,10);
+			let dateStr = parseInt(this.dates[index-1].toString()+'000');
+			let newDate = new Date(dateStr);
+			let hours = parseInt(time.substring(0,2));
+			let minutes = parseInt(time.substring(3,5));
+			newDate.setHours(hours,minutes,0);
+			let date = parseInt(Number(newDate).toString().substring(0,10));
 			// md5验证
-			let mc = {
-				'time': timeStamp,
-				'user_id': window.localStorage.getItem('id'),
+			let info = {
+				'time': date,
+				'userId': window.localStorage.getItem('id'),
 			},
-			keys = Object.keys(mc),
+			keys = Object.keys(info),
 			i, len = keys.length;
 			keys.sort();
 			let p = '';
 			for (i = 0; i < len; i++) {
 				let k = keys[i];
-				p += k+'='+mc[k]+'&';
+				p += k+'='+info[k]+'&';
 			}
 			p = p.substring(0,p.length-1);
 			let tokens = md5(`ilovewan${p}banghanchen`);
 			// ajax
-			let url = '/api/v1/onebyone/makeclass';
+			let url = '/api/v2/onebyone/makeclass';
 			let config = {
 				headers:{
 					versions: '1',
 					tokens: tokens,
 				}
 			}
-			// axios.post(url,mc,config)
-			// .then(function (response) {
-			// 	if (response.data.errCode == 0) {
-			// 		that.tebelRender();
-			// 		that.$alert(response.data.errMsg, '预约成功', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if (response.data.errCode == 60003) {
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60004){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60005){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60006){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60007){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60008){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60009){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60010){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60011){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}else if(response.data.errCode == 60021){
-			// 		that.$alert(response.data.errMsg, '预约失败', {
-			// 			confirmButtonText: '确定',
-			// 		})
-			// 	}
-			// })
+			axios.post(url,info,config)
+			.then(function (response) {
+				that.getTimeList(that.tz);
+				console.log(response);
+				if (response.data.errCode == 0) {
+					that.tebelRender();
+					that.$alert(response.data.errMsg, '预约成功', {
+						confirmButtonText: '确定',
+					})
+				}else if (response.data.errCode == 60003) {
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60004){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60005){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60006){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60007){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60008){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60009){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60010){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60011){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}else if(response.data.errCode == 60021){
+					that.$alert(response.data.errMsg, '预约失败', {
+						confirmButtonText: '确定',
+					})
+				}
+			})
 		}
 	}
 }

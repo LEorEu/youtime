@@ -100,7 +100,7 @@
             <el-dialog title="修改邮箱" :visible.sync="dialogEmailVisible">
               <el-form>
                 <el-form-item label="邮箱地址" :label-width="formLabelWidth">
-                  <el-input v-model="pwd.src_password" type="password" placeholder="请输入邮箱"></el-input>
+                  <el-input v-model="pwd.src_password" type="email" placeholder="请输入邮箱"></el-input>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -114,7 +114,7 @@
             <el-dialog title="修改手机号" :visible.sync="dialogPhoneVisible">
               <el-form>
                 <el-form-item label="手机号" :label-width="formLabelWidth">
-                  <el-input v-model="pwd.src_password" type="password" placeholder="请输入手机号"></el-input>
+                  <el-input v-model="pwd.src_password" type="text" placeholder="请输入手机号"></el-input>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">

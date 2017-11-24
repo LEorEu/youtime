@@ -22,16 +22,12 @@
         <button class="btn" id="submitLogin" @click="login">登录</button>
         <router-link class="btn-link" to="/register/regmail">注册领取免费体验课</router-link>
     </div>
-    <div class="msg">
-        <p>{{msg}}</p>
-    </div>
   </div>
 </template>
 
 <script>
 import md5 from 'blueimp-md5'
 import axios from 'axios'
-import jstz from 'jstz'
 
 export default {
     data: function(){
@@ -40,17 +36,24 @@ export default {
             loginTel: '',
             loginTelpwd: '',
             msg: '',
-            tz: ''
+            ip: ''
         }
     },
     mounted(){
-        this.timeZone();
+        this.ip_info();
     },
     methods:{
-        timeZone(){
-            const timezone = jstz.determine();
-            timezone.name(); 
-            this.tz = timezone.name();
+        ip_info(){
+            let that = this;
+            axios.get('/api/v1/getip')
+            .then(function (response) {
+                that.ip = response.data.data;
+                let url = '/api/v1/user/ipto_info';
+                axios.post(url,that.ip)
+                .then(function (response) {
+                    that.loginCountry = response.data.data.phone_code;
+                })
+            })
         },
         login:function(){
             if (this.loginTel == '' || this.loginTelpwd == '' || this.loginCountry == '') {
