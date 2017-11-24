@@ -37,7 +37,10 @@ export default {
     reg :function(){
         let that = this;
         if (this.regMail == '' || this.regPwd == '') {
-            console.log('请填写完整的资料')
+            this.$message({
+                message: '请填写完整的资料',
+                type: 'error'
+            });
         }else{
             // md5验证
             let register = {
@@ -64,6 +67,7 @@ export default {
             let config = {
                 headers:{
                     versions: '1',
+                    as: '3',
                     tokens: tokens,
                     'content-type': 'multipart/form-data'
                 }
@@ -71,10 +75,12 @@ export default {
             axios.post(url,formData,config)
             .then(function (response) {
                 if (response.data.errCode == '0') {
-                    console.log('注册成功');
+                    that.$alert('该邮箱已注册成功', '注册成功', {
+						confirmButtonText: '确定',
+					})
                     window.localStorage.setItem('id',response.data.data.id);
                     window.localStorage.setItem('account',response.data.data.mail);
-                    window.location.href = '/study';
+                    // window.location.href = '/study';
                 }else if(response.data.errCode == '30002'){
                     that.$alert('邮箱或密码格式错误，请输入正确的邮箱或6-16位密码', '注册失败', {
 						confirmButtonText: '确定',

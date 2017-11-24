@@ -34,8 +34,13 @@ export default{
     },
     methods:{
         login:function(){
+            let that = this;
             if (this.loginMail == '' || this.loginMailpwd == '') {
-                console.log('请填写完整的资料')
+                let alert = {
+                    message: '请填写完整的资料',
+                    type: 'warning'
+                }
+                that.alertOpen(alert.message,alert.type);
             }else{
                 // md5验证
                 let login = {
@@ -71,21 +76,43 @@ export default{
                 .then(function (response) {
                     console.log(response.data);
                     if (response.data.errCode == '0') {
-                        console.log('登录成功');
+                        let alert = {
+                            message: '登录成功',
+                            type: 'success'
+                        }
+                        that.alertOpen(alert.message,alert.type);
                         window.localStorage.setItem('id',response.data.data.id);
                         window.localStorage.setItem('account',response.data.data.email);
                         window.localStorage.setItem('cname',response.data.data.cname);
                         window.location.href = '/study';
                     }else if(response.data.errCode == '30005'){
-                        console.log('用户名或密码错误');
+                        let alert = {
+                            message: '用户名或密码错误',
+                            type: 'error'
+                        }
+                        that.alertOpen(alert.message,alert.type);
                     }else{
-                        console.log('登录失败');
+                        let alert = {
+                            message: '登录失败',
+                            type: 'error'
+                        }
+                        that.alertOpen(alert.message,alert.type);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    let alert = {
+                        message: '系统错误',
+                        type: 'error'
+                    }
+                    that.alertOpen(alert.message,alert.type);
                 })
             }
+        },
+        alertOpen(msg,tp){
+            this.$message({
+                message: msg,
+                type: tp
+            });
         }
     }
 }

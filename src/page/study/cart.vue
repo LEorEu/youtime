@@ -88,6 +88,7 @@ export default {
 			axios.get(url,userid)
 			.then(function (response) {
 				if (response.data.errCode == 0) {
+					console.log(response.data);
 					that.ocs = response.data.data['1v1'];
 					that.fcs = response.data.data['1v4'];
 				}else{

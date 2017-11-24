@@ -32,10 +32,7 @@
 							</el-dropdown-menu>
 						</el-dropdown>
 					</li>
-
-					<li v-else><router-link to="/login">登录</router-link>
-						<span>注册</span>
-					</li>
+					<li v-else><router-link to="/login">登录</router-link></li>
 				</ul>
 			</div>
 		</div>
@@ -46,9 +43,7 @@
 export default {
 	data(){
 		return{
-			cname: window.localStorage.getItem('cname'),
-			loginStatus: '',
-			block: false
+			cname: window.localStorage.getItem('cname')
 		}
 	},
 	mounted(){
@@ -60,12 +55,8 @@ export default {
   	methods: {
 		checkLogin(){
 			if(!window.localStorage.getItem('id')){
-				//如果没有登录状态则跳转到登录页
-				this.loginStatus == 1;
-				console.log(1);
 				return false
 			}else{
-				this.loginStatus == 0;
 				return true
 			}
 		},

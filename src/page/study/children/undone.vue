@@ -1,50 +1,52 @@
 <template>
 	<div class="course-box">
-		<div class="course-list">
-			<ul>
-				<li class="flex" v-for="(course, index) in courses" :key="course.index">
-					<div class="course-left">
-						<div class="line"></div>
-						<i class="icon-round"></i>
-					</div>
-					<div class="course-right">
-						<div class="course-time">
-							<p>{{moment.unix(parseInt(course.datetimes)).format('MM月DD日 HH:mm')}}</p>
+		<div class="transition-box" v-show="show">
+			<div class="course-list">
+				<ul>
+					<li class="flex" v-for="(course, index) in courses" :key="course.index">
+						<div class="course-left">
+							<div class="line"></div>
+							<i class="icon-round"></i>
 						</div>
-						<div class="course-info clearfix">
-							<div class="course-img fl-l">
-								<img :src="course.url_image" alt="">
+						<div class="course-right">
+							<div class="course-time">
+								<p>{{moment.unix(parseInt(course.datetimes)).format('MM月DD日 HH:mm')}}</p>
 							</div>
-							<div class="course-text fl-l">
-								<div class="course-title">
-									<div class="course-type fl-l" :class="typeClass(course.type)">{{typeDistinguish(course.type)}}</div>
-									<h2>{{course.title}}</h2>
+							<div class="course-info clearfix">
+								<div class="course-img fl-l">
+									<img :src="course.url_image" alt="">
 								</div>
-								<p class="course-subtitle">{{course.describe}}</p>
-								<p class="course-datetimes">上课时间：{{moment.unix(parseInt(course.datetimes)).format('MM月DD日 HH:mm')}}</p>
-								<div class="course-teacher flex">老师：
-									<div class="teacher-img">
-										<img :src="course.headimg" alt="">
+								<div class="course-text fl-l">
+									<div class="course-title">
+										<div class="course-type fl-l" :class="typeClass(course.type)">{{typeDistinguish(course.type)}}</div>
+										<h2>{{course.title}}</h2>
 									</div>
-									<p>{{course.ename}}</p>
+									<p class="course-subtitle">{{course.describe}}</p>
+									<p class="course-datetimes">上课时间：{{moment.unix(parseInt(course.datetimes)).format('MM月DD日 HH:mm')}}</p>
+									<div class="course-teacher flex">老师：
+										<div class="teacher-img">
+											<img :src="course.headimg" alt="">
+										</div>
+										<p>{{course.ename}}</p>
+									</div>
+								</div>
+								<div class="course-btns fl-r clearfix">
+									<button class="course-btn btn-cancel fl-r" @click="uplesson(course.id)" v-if="course.type == 0" :style="{display:block?'block':''}">取消预约</button>
+									<button class="course-btn btn-enter fl-r" @click="tolink(course.id,course.type)">进入教室</button>
 								</div>
 							</div>
-							<div class="course-btns fl-r clearfix">
-								<button class="course-btn btn-cancel fl-r" @click="uplesson(course.id)" v-if="course.type == 0" :style="{display:block?'block':''}">取消预约</button>
-								<button class="course-btn btn-enter fl-r" @click="tolink(course.id,course.type)">进入教室</button>
-							</div>
 						</div>
-					</div>
-				</li>
-			</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
-			<span>确定现在进入教室上课吗</span>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<a :href="tk_url" target="_blank"><el-button type="primary" @click="dialogVisible = false">确 定</el-button></a>
-			</span>
-		</el-dialog>
+		<div class="tk-classroom" v-show="!show">
+			<iframe id="iframe" :src="tk_url" width="100%" height="100%;" frameborder="0"></iframe>
+			<div class="return-btn flex" @click="tk_return()">
+				<i class="el-icon-arrow-left"></i>
+				<p>返回</p>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -57,9 +59,9 @@ export default {
         return{
 			courses: [],
 			block: false,
-			dialogVisible: false,
 			tk_url: '',
-			newDate: new Date()
+			newDate: new Date(),
+			show: true
         }
 	},
 	mounted(){
@@ -211,10 +213,13 @@ export default {
 			}
 			axios.post(url,talk_cloud,config)
 			.then(function (response) {
-				that.dialogVisible = true;
 				that.tk_url = response.data.data.url;
-				console.log(response,that.tk_url)
+				that.show = false;
 			})
+		},
+		tk_return(){
+			this.tk_url = '';
+			this.show = true;
 		}
 	}
 }
@@ -253,5 +258,10 @@ export default {
 		}
 	}
 	.dialog-footer a{ display: inline-block;}
+	#iframe{ position: absolute; top: 0px; left: 0px;}
+	.return-btn{ position: absolute; top: 6px; left: 15px; z-index: 999; cursor: pointer;
+		.el-icon-arrow-left{ color: #d1d1d1; font-size: 20px;}
+		p{ margin-left: 5px; line-height: 20px; font-size: 14px; color: #d1d1d1;}
+	}
 }
 </style>

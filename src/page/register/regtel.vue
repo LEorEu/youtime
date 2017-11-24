@@ -37,6 +37,7 @@
 <script>
 import md5 from 'blueimp-md5'
 import axios from 'axios'
+import jstz from 'jstz'
 
 export default {
   data:function () {
@@ -47,15 +48,30 @@ export default {
       regPwd: '',
       time: '发送验证码',
       isdaojishi: false,
-      isDisabled: false
+      isDisabled: false,
+      tz: ''
     }
   },
+  mounted(){
+    this.timeZone();
+  },
   methods: {
+    timeZone(){
+        const timezone = jstz.determine();
+        timezone.name(); 
+        this.tz = timezone.name();
+        console.log(this.tz);
+    },
     // 验证码获取
     daojishi :function() {
+        let that = this;
         // 验证是否为空
         if (this.regCountry == '' || this.regTel == '') {
-            console.log('请输入手机号和国家码');
+            let alert = {
+                message: '请输入手机号和国家码',
+                type: 'warning'
+            }
+            that.alertOpen(alert.message,alert.type);
         }else{
             // 计时器
             this.time = 60;
@@ -101,7 +117,11 @@ export default {
                 console.log(response.data.errMsg);
             })
             .catch(function (error) {
-                console.log('发送验证码失败');
+                let alert = {
+                    message: '发送验证码失败',
+                    type: 'error'
+                }
+                that.alertOpen(alert.message,alert.type);
             })
         }
     },
@@ -109,7 +129,11 @@ export default {
     reg :function(){
         let that = this;
         if (this.regCountry == '' || this.regTel == '' || this.regSms == '' || this.regPwd == '') {
-            console.log('请填写完整的资料')
+            let alert = {
+                message: '请填写完整的资料',
+                type: 'warning'
+            }
+            that.alertOpen(alert.message,alert.type);
         }else{
             // md5验证
             let register = {
@@ -139,6 +163,7 @@ export default {
             let config = {
                 headers:{
                     versions: '1',
+                    as: '3',
                     tokens: tokens,
                     'content-type': 'multipart/form-data'
                 }
@@ -146,34 +171,54 @@ export default {
             axios.post(url,formData,config)
             .then(function (response) {
                 if (response.data.errCode == '0') {
-                    console.log('注册成功');
+                    let alert = {
+                        message: '注册成功',
+                        type: 'success'
+                    }
+                    that.alertOpen(alert.message,alert.type);
                     window.localStorage.setItem('id',response.data.data.id);
                     window.localStorage.setItem('account',response.data.data.phone);
                     window.location.href = '/study';
                 }else if(response.data.errCode == '30002'){
-                    that.$alert('手机号或密码格式错误，请输入正确的手机号或6-16位密码', '注册失败', {
-						confirmButtonText: '确定',
-					})
+                    let alert = {
+                        message: '手机号或密码格式错误，请输入正确的手机号或6-16位密码',
+                        type: 'error'
+                    }
+                    that.alertOpen(alert.message,alert.type);
                 }else if(response.data.errCode == '30003'){
-                    that.$alert('验证码错误', '注册失败', {
-						confirmButtonText: '确定',
-					})
+                    let alert = {
+                        message: '验证码错误',
+                        type: 'error'
+                    }
+                    that.alertOpen(alert.message,alert.type);
                 }else if(response.data.errCode == '30007'){
-                    that.$alert('该手机号已注册', '注册失败', {
-						confirmButtonText: '确定',
-					})
+                    let alert = {
+                        message: '该手机号已注册',
+                        type: 'error'
+                    }
+                    that.alertOpen(alert.message,alert.type);
                 }else{
-                    that.$alert('注册失败', '注册失败', {
-						confirmButtonText: '确定',
-					})
+                    let alert = {
+                        message: '注册失败',
+                        type: 'error'
+                    }
+                    that.alertOpen(alert.message,alert.type);
                 }
             })
             .catch(function (error) {
-                that.$alert('系统错误', '注册失败', {
-                    confirmButtonText: '确定',
-                })
+                let alert = {
+                    message: '系统错误',
+                    type: 'error'
+                }
+                that.alertOpen(alert.message,alert.type);
             })
         }
+    },
+    alertOpen(msg,tp){
+        this.$message({
+            message: msg,
+            type: tp
+        });
     }
   }
 }

@@ -21,17 +21,18 @@
 			</div>
 		</div>
 		<div class="pay-type">
-			<h2>购买课程</h2>
 			<div class="pay-list">
 				<!-- <el-radio-group size="medium">
 					<el-radio border label="支付宝"></el-radio>
 					<el-radio border label="微信"></el-radio>
 				</el-radio-group> -->
-				<div id="paypal-button-container"></div>
+				<!-- <div id="paypal-button-container"></div> -->
 			</div>	
 			<div class="pay-btn">
+				<div class="paypal-btn">
+					<div id="paypal-button-container"></div>
+				</div>
 				<p>购买即代表同意<span>《优唐中文课程服务协议》</span></p>
-				<button @click="createsale()">确认支付</button>
 			</div>	
 		</div>
 	</div>
@@ -104,6 +105,13 @@ import md5 from 'blueimp-md5'
 						production: '<insert production auth key>'
 					},
 					env: 'sandbox', // sandbox | production
+					style: {
+						label: 'paypal',
+						size:  'medium',    // small | medium | large | responsive
+						shape: 'rect',     // pill | rect
+						color: 'gold',     // gold | blue | silver | black
+						tagline: false    
+					},
 					payment: function(data, actions) {
 						return actions.payment.create({
 							payment: {
@@ -156,7 +164,11 @@ import md5 from 'blueimp-md5'
 				console.log(info);
 				axios.post(url,info,config)
 				.then(function (response) {
-					console.log(response);
+					if (response.data.errCode == 0) {
+						console.log(response.data.data,'支付成功');
+					}else{
+						console.log('支付失败请重试');
+					}
 				})
 			}
 		}
@@ -176,16 +188,16 @@ import md5 from 'blueimp-md5'
 			}
 		}
 	}
-	.pay-type{ padding: 20px; margin-top: 10px; width: 100%; background-color: #fff;
+	.pay-type{ padding: 20px; width: 100%; background-color: #fff;
 		h2{ font-size: 28px; font-weight: 500; color: #ff6325;}
-		.pay-list{ margin-top: 20px; padding-left: 20px;
+		.pay-list{ margin-top: 20px; padding-left: 0px;
 			.el-radio{ width: 150px; text-align: center; margin-right: 20px;}
 		}
 		.pay-btn{ margin-top: 150px;
 			p{ font-size: 14px; text-align: center;
 				span{ color: #ff6325;}
 			}
-			button{ display: block; margin: 30px auto; width: 150px; height: 40px; background-color: #ff6325; color: #fff; font-size: 18px; border: 0; border-radius: 4px; cursor: pointer;}
+			.paypal-btn{ margin: 20px auto; width: 250px;}
 		}
 
 	}

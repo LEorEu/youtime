@@ -31,21 +31,36 @@
 <script>
 import md5 from 'blueimp-md5'
 import axios from 'axios'
+import jstz from 'jstz'
 
-export default{
+export default {
     data: function(){
         return{
             loginCountry: '',
             loginTel: '',
             loginTelpwd: '',
-            msg: ''
+            msg: '',
+            tz: ''
         }
     },
+    mounted(){
+        this.timeZone();
+    },
     methods:{
+        timeZone(){
+            const timezone = jstz.determine();
+            timezone.name(); 
+            this.tz = timezone.name();
+        },
         login:function(){
             if (this.loginTel == '' || this.loginTelpwd == '' || this.loginCountry == '') {
-                console.log('请填写完整的资料')
+                let alert = {
+                    message: '请填写完整的资料',
+                    type: 'warning'
+                }
+                this.alertOpen(alert.message,alert.type);
             }else{
+                let that = this;
                 // md5验证
                 let login = {
                     'telephone': this.loginTel,
@@ -79,22 +94,45 @@ export default{
                 }
                 axios.post(url,formData,config)
                 .then(function (response) {
+                    console.log(response)
                     if (response.data.errCode == '0') {
-                        console.log('登录成功');
+                        let alert = {
+                            message: '登录成功',
+                            type: 'success'
+                        }
+                        that.alertOpen(alert.message,alert.type);
                         window.localStorage.setItem('id',response.data.data.id);
                         window.localStorage.setItem('account',response.data.data.phone);
                         window.localStorage.setItem('cname',response.data.data.cname);
                         window.location.href = '/study';
                     }else if(response.data.errCode == '30005'){
-                        console.log('用户名或密码错误');
+                        let alert = {
+                            message: '用户名或密码错误',
+                            type: 'error'
+                        }
+                        that.alertOpen(alert.message,alert.type);
                     }else{
-                        console.log('登录失败');
+                        let alert = {
+                            message: '登录失败',
+                            type: 'error'
+                        }
+                        that.alertOpen(alert.message,alert.type);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    let alert = {
+                        message: '系统错误',
+                        type: 'error'
+                    }
+                    that.alertOpen(alert.message,alert.type);
                 })
             }
+        },
+        alertOpen(msg,tp){
+            this.$message({
+                message: msg,
+                type: tp
+            });
         }
     }
 }
