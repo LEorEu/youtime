@@ -72,7 +72,7 @@ import md5 from 'blueimp-md5'
 				.then(function (response) {
 					that.resource = response.data.data;
 				})
-				axios.get('/api/v1/test_paypal_cilenttoken')
+				axios.get('/api/v1/paypal_cilenttoken')
 				.then(function (response) {
 					that.paypalToken = response.data.data.clientToken;
 					that.paypal();
@@ -101,10 +101,10 @@ import md5 from 'blueimp-md5'
 				paypal.Button.render({
 					braintree: braintree,
 					client: {
-						sandbox: this.paypalToken,
-						production: '<insert production auth key>'
+						sandbox: '<insert sandbox auth key>',
+						production: this.paypalToken
 					},
-					env: 'sandbox', // sandbox | production
+					env: 'production', // sandbox | production
 					style: {
 						label: 'paypal',
 						size:  'medium',    // small | medium | large | responsive
@@ -137,7 +137,7 @@ import md5 from 'blueimp-md5'
 				// md5验证
 				let info = {
 					'payment_method_nonce': nonce,
-					'tokenid': 93,
+					'tokenid': '',
 					'shopid': this.$route.query.id,
 					'amount': this.resource.discount_price,
 					'userid': window.localStorage.getItem('id'),
@@ -164,6 +164,7 @@ import md5 from 'blueimp-md5'
 				console.log(info);
 				axios.post(url,info,config)
 				.then(function (response) {
+					console.log(response);
 					if (response.data.errCode == 0) {
 						console.log(response.data.data,'支付成功');
 					}else{

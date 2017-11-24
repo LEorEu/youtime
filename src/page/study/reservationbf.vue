@@ -57,7 +57,7 @@
 										<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
 											<p>{{moment(rtdate.day).format('MM/DD')}}</p>
 											<li class="time" v-for="(item, itemI) in times" :key="item.index+'time'">
-												<span class="myspan" v-if='tebelRender(item,index)' @click="makeclass(rtdate.day,item,teacherInfo.tid)">可预约</span>
+												<span class="myspan" v-if='tebelRender(item,index)' @click="makeclass(rtdate.day)">可预约</span>
 											</li>
 										</ul>
 									</div>

@@ -14,9 +14,9 @@
 								<li v-for="(time, index) in times" :key="time.index">{{time}}</li>
 							</ul>
 							<ul class="table-date" v-for="(rtdate, index) in rtdates" :key="rtdate.index">
-								<p>{{moment(rtdate.day).format('MM/DD')}}</p>
-								<li class="time" v-for="(item, itemI) in times" :key="item.index+'time'">
-									<span class="myspan" v-if='tebelRender(item,index)' @click="makeclass(rtdate.day,item,teacherInfo.tid)">可预约</span>
+								<p>{{moment.unix(dates[index-1]).format('MM/DD')}}</p>
+								<li class="time" v-for="(item, index) in rtdate" :key="item.index">
+									<span class="myspan" v-if='tebelRender(item.status)' @click="makeclass(item.time)">可预约</span>
 								</li>
 							</ul>
 						</div>
@@ -37,35 +37,39 @@ export default {
 		return {
 			tz: '',			//获取当前时区
 			rtdates: '',	//预约课程具体时间
-			times: ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00']	//预约课程时间段
+			times: ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00'],	//预约课程时间段
+			dates: []
 		}
 	},
 	mounted(){
 		this.timeZone();
+		this.dateTime();
 	},
 	methods: {
+		// 获取时区
 		timeZone(){
 			const timezone = jstz.determine();
 			timezone.name(); 
 			this.tz = timezone.name();
 			this.getTimeList(this.tz);
 		},
-		//表格渲染
-		tebelRender(item,index){
-			if(this.rtdates.length>0){
-				for(let i=0;i<this.rtdates[index].time.length;i++){
-					if(item==this.rtdates[index].time[i]){
-						return true
-					}
-				}
+		// 生成预约日期
+		dateTime(){
+			let dateArr = [];
+			let date = new Date();
+			let dateFormat = date.setHours(0,0,0);
+			let todayNum = parseInt(Number(dateFormat).toString().substring(0,10));
+			for (let index = 0; index < 7; index++) {
+				todayNum = todayNum + 86400;
+				dateArr.push(todayNum);
 			}
+			this.dates = dateArr;
 		},
 		// 获取预约时间
 		getTimeList(tz){
 			let that=this;
 			// md5验证
-			let time_zone = `time_zone=${tz}`
-			console.log(time_zone)
+			let time_zone = `time_zone=${tz}`;
 			let tokens = md5(`ilovewan${time_zone}banghanchen`);
 			// ajax
 			let url = `/api/v2/onebyone/gettimelist?${time_zone}`;
@@ -78,11 +82,18 @@ export default {
 			axios.get(url,time_zone,config)
 			.then(function (response) {
 				that.rtdates = response.data.data;
-				console.log(that.rtdates);
+				// console.log(that.rtdates)
 			})
 		},
+		// 显示可预约时间
+		tebelRender(status){
+			if(status == '1'){
+				return true
+			}
+		},
 		// 点击约课状态
-		makeclass(date,time,teacher) {
+		makeclass(date,time) {
+			console.log(date,time);
 			let that=this;
 			let dateTime = date + ' ' + time + ':000';
 			let newDate = new Date(dateTime);
@@ -111,55 +122,55 @@ export default {
 					tokens: tokens,
 				}
 			}
-			axios.post(url,mc,config)
-			.then(function (response) {
-				if (response.data.errCode == 0) {
-					that.tebelRender();
-					that.$alert(response.data.errMsg, '预约成功', {
-						confirmButtonText: '确定',
-					})
-				}else if (response.data.errCode == 60003) {
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60004){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60005){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60006){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60007){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60008){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60009){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60010){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60011){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}else if(response.data.errCode == 60021){
-					that.$alert(response.data.errMsg, '预约失败', {
-						confirmButtonText: '确定',
-					})
-				}
-			})
+			// axios.post(url,mc,config)
+			// .then(function (response) {
+			// 	if (response.data.errCode == 0) {
+			// 		that.tebelRender();
+			// 		that.$alert(response.data.errMsg, '预约成功', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if (response.data.errCode == 60003) {
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60004){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60005){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60006){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60007){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60008){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60009){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60010){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60011){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}else if(response.data.errCode == 60021){
+			// 		that.$alert(response.data.errMsg, '预约失败', {
+			// 			confirmButtonText: '确定',
+			// 		})
+			// 	}
+			// })
 		}
 	}
 }
