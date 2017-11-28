@@ -2,12 +2,12 @@
 	<div class="mycourse">
 		<div class="course-menu">
 			<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-				<el-menu-item index="1">
-					<router-link to="/study/mycourse/undone">未上的课程</router-link>
-				</el-menu-item>
-				<el-menu-item index="2">
-					<router-link to="/study/mycourse/complete">已上的课程</router-link>
-				</el-menu-item>
+				<router-link to="/study/mycourse/undone">
+					<el-menu-item index="1">未上的课程</el-menu-item>
+				</router-link>
+				<router-link to="/study/mycourse/complete">
+					<el-menu-item index="2">已上的课程</el-menu-item>
+				</router-link>
 			</el-menu>
 		</div>
 		<div class="course-main">
@@ -49,5 +49,6 @@ export default {
 		}
 	}
 	.course-main{ width: 100%; border-top: 10px solid #F2F3F4;}
+	.el-menu-item.is-active{ color: #333;}
 }
 </style>

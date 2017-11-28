@@ -80,7 +80,7 @@ export default {
         'yt-header': ytHeader,
         'yt-footer': YtFooter
     },
-    data: function(){
+    data() {
         return{
             features: [
                 {

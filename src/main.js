@@ -15,6 +15,7 @@ import './style/style.css'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.moment = moment
+moment.locale('zh-cn')
 /* eslint-disable no-new */
 new Vue({
   router,

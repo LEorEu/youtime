@@ -7,6 +7,9 @@ import home from '../page/home'
 // 课程介绍
 import Curriculum from '../page/curriculum'
 
+// 客户端下载
+import Client from '../page/client'
+
 // 介绍
 import china from '../page/china'
 import landscape from '../page/china/landscape'
@@ -32,16 +35,21 @@ import regtel from '../page/register/regtel'
 
 // 学习页
 import Study from '../page/study'
-import MyCourse from '../page/study/mycourse'
-import Reservation from '../page/study/reservation'
 import Guide from '../page/study/guide'
 import Details from '../page/study/details'
+import MyScore from '../page/study/myscore'
+
 import Cart from '../page/study/cart'
 import Pay from '../page/study/pay'
+
+import MyCourse from '../page/study/mycourse'
 import Undone from '../page/study/children/undone'
 import Complete from '../page/study/children/complete'
 
-import MyScore from '../page/study/myscore'
+import Reservation from '../page/study/reservation'
+import Onebyone from '../page/study/children/onebyone'
+import Onebyfour from '../page/study/children/onebyfour'
+import Test from '../page/study/children/test'
 
 // 个人中心
 import Ucenter from '../page/usercenter'
@@ -67,6 +75,11 @@ export default new Router({
     {
       path: '/home',
       component: home
+    },
+    //客户端下载
+    {
+      path: '/client',
+      component: Client
     },
     //课程体系
     {
@@ -165,7 +178,19 @@ export default new Router({
       // 预约课程
       {
         path: 'reservation',
-        component: Reservation
+        component: Reservation,
+        children: [{
+          path: 'onebyone',
+          component: Onebyone
+        },
+        {
+          path: 'onebyfour',
+          component: Onebyfour
+        },
+        {
+          path: 'test',
+          component: Test
+        }]
       },
       // 课前指导
       {
