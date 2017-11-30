@@ -9,7 +9,6 @@
 					<li><router-link to="/">首页</router-link></li>
 					<li><router-link to="/curriculum">课程介绍</router-link></li>
 					<!-- <li><router-link to="/client">下载客户端</router-link></li> -->
-					<!-- <li><router-link to="/teachers">师资力量</router-link></li> -->
 				</ul>
 			</nav>
 			<div class="nav nav-login fl-r">
@@ -17,7 +16,7 @@
 					<!-- <li><router-link to="/study/cart">购买课程</router-link></li> -->
 					<li v-if="this.checkLogin()">
 						<el-dropdown>
-							<span class="el-dropdown-link">Hi，{{cname}}同学<i class="el-icon-arrow-down el-icon--right"></i></span>
+							<span class="el-dropdown-link">Hi，{{users.cname}}同学<i class="el-icon-arrow-down el-icon--right"></i></span>
 							<el-dropdown-menu slot="dropdown">
 								<router-link to="/study/mycourse">
 									<el-dropdown-item>我的课程</el-dropdown-item>
@@ -43,14 +42,18 @@
 </template>
 
 <script>
+import md5 from 'blueimp-md5'
+import axios from 'axios'
+
 export default {
 	data(){
 		return{
-			cname: window.localStorage.getItem('cname')
+			users: ''
 		}
 	},
 	mounted(){
 		this.checkLogin();
+		this.studentInfo();
 	},
 	watch: {
 		"$route": "checkLogin"
@@ -66,8 +69,29 @@ export default {
 		close(){
 			window.localStorage.setItem('id','');
 			window.localStorage.setItem('account','');
-			window.localStorage.setItem('cname','');
 			this.$router.push('/login');
+		},
+		studentInfo(){
+			let that=this;
+			let ls = window.localStorage.getItem('id');
+			// md5验证
+			let studentInfo = 'id='+ls
+			let tokens = md5('ilovewan' + studentInfo + 'banghanchen');
+			// ajax
+			let url = '/api/v1/Studentuser_info?' + studentInfo;
+			let config = {
+				headers:{
+					versions: '1',
+					tokens: tokens,
+				}
+			}
+			axios.get(url,studentInfo,config)
+			.then(function (response) {
+				that.users=response.data.data;
+				if (that.users.cname == '') {
+					that.users.cname='优唐学员';
+				}
+			})
 		}
 	}
 }

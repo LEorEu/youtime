@@ -2,7 +2,9 @@
 	<el-aside width="200px">
 		<div class="aside-info">
 			<div class="user-img">
-				<img :src="users.headimg" alt="">
+				<router-link to="/usercenter">
+					<img :src="users.headimg" title="点击进入编辑个人信息">
+				</router-link>
 			</div>
 			<div class="user-name">
 				<p>{{users.cname}}</p>
@@ -67,7 +69,10 @@ export default {
 			}
 			axios.get(url,studentInfo,config)
 			.then(function (response) {
-				that.users=response.data.data
+				that.users=response.data.data;
+				if (that.users.cname == '') {
+					that.users.cname='优唐学员';
+				}
 			})
 		}
 	}

@@ -97,7 +97,6 @@ export default {
                 }
                 axios.post(url,formData,config)
                 .then(function (response) {
-                    console.log(response)
                     if (response.data.errCode == '0') {
                         let alert = {
                             message: '登录成功',
@@ -106,7 +105,6 @@ export default {
                         that.alertOpen(alert.message,alert.type);
                         window.localStorage.setItem('id',response.data.data.id);
                         window.localStorage.setItem('account',response.data.data.phone);
-                        window.localStorage.setItem('cname',response.data.data.cname);
                         window.location.href = '/study';
                     }else if(response.data.errCode == '30005'){
                         let alert = {

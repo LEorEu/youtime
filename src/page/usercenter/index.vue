@@ -15,8 +15,8 @@
             <div class="info-title">
               <h3>头像</h3>
             </div>
-            <div class="info-img">
-              <img :src="userInfo.headimg" alt="">
+            <div class="edit-avatar">
+              <VueImgInputer v-model="picValue" theme="material" size="small" :imgSrc="userInfo.headimg"></VueImgInputer>
             </div>
           </div>
           <!-- sex -->
@@ -100,49 +100,20 @@
             <el-dialog title="修改邮箱" :visible.sync="dialogEmailVisible">
               <el-form>
                 <el-form-item label="邮箱地址" :label-width="formLabelWidth">
-                  <el-input v-model="pwd.src_password" type="email" placeholder="请输入邮箱"></el-input>
+                    <el-input v-model="dialogEmailText" type="email" placeholder="请输入邮箱"></el-input>
+                    <span>{{tooltipEmailContent}}</span>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogEmailVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogEmailVisible = false">确 定</el-button>
+                <el-button @click="cancal()">取 消</el-button>
+                <el-button type="primary" @click="saveEmail()">确 定</el-button>
               </div>
             </el-dialog>
           </div>
           <!-- phone-dialog -->
-          <div class="phone-showbox showbox">
-            <el-dialog title="修改手机号" :visible.sync="dialogPhoneVisible">
-              <el-form>
-                <el-form-item label="手机号" :label-width="formLabelWidth">
-                  <el-input v-model="pwd.src_password" type="text" placeholder="请输入手机号"></el-input>
-                </el-form-item>
-              </el-form>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogPhoneVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogPhoneVisible = false">确 定</el-button>
-              </div>
-            </el-dialog>
-          </div>
+          <phone-dialog></phone-dialog>
           <!-- pwd-dialog -->
-          <div class="pwd-showbox showbox">
-            <el-dialog title="修改密码" :visible.sync="dialogPwdVisible">
-              <el-form>
-                <el-form-item label="旧密码" :label-width="formLabelWidth">
-                  <el-input v-model="pwd.src_password" type="password" placeholder="请输入旧密码"></el-input>
-                </el-form-item>
-                <el-form-item label="新密码" :label-width="formLabelWidth">
-                  <el-input v-model="pwd.new_password" type="password" placeholder="请输入新密码"></el-input>
-                </el-form-item>
-                <el-form-item label="新密码" :label-width="formLabelWidth">
-                  <el-input v-model="pwd.confirm_password" type="password" placeholder="请输入新密码"></el-input>
-                </el-form-item>
-              </el-form>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogPwdVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogPwdVisible = false">确 定</el-button>
-              </div>
-            </el-dialog>
-          </div>
+          <pwd-dialog></pwd-dialog>
         </div>
 			</div>
 		</div>
@@ -150,8 +121,11 @@
 </template>
 
 <script>
+import VueImgInputer from 'vue-img-inputer'
 import ytHeader from '../../components/header/yt-header'
 import sAside from '../../components/common/s-aside'
+import phoneDialog from '../../components/common/phone-dialog'
+import pwdDialog from '../../components/common/pwd-dialog'
 import md5 from 'blueimp-md5'
 import axios from 'axios'
 
@@ -159,6 +133,9 @@ export default {
   components: {
     'yt-header': ytHeader,
     's-aside': sAside,
+    'phone-dialog': phoneDialog,
+    'pwd-dialog': pwdDialog,
+    VueImgInputer
   },
   data() {
     return {
@@ -166,15 +143,15 @@ export default {
       flag: true,
       emailShow: true,
       phoneShow: true,
-      pwd: [],
       status: {
         emailText: '修改邮箱',
         phoneText: '修改手机号'
       },
-      dialogPwdVisible: false,
       dialogEmailVisible: false,
-      dialogPhoneVisible: false,
-      formLabelWidth: '100px'
+      dialogEmailText: '',
+      tooltipEmailContent: '',
+      formLabelWidth: '100px',
+      picValue: ''
     }
   },
   mounted(){
@@ -211,9 +188,14 @@ export default {
 				if (response.data.errCode == 0) {
           that.userInfo = response.data.data;
           that.userInfo.sex = parseInt(that.userInfo.sex);
-          let timestamp = parseInt(that.userInfo.birthday+'000');
-          let newDate = new Date(timestamp);
-          that.userInfo.birthday = newDate;
+          // 日期类型转换有问题
+          if (that.userInfo.birthday == '0') {
+            that.userInfo.birthday == '';
+          }else {
+            let timestamp = parseInt(that.userInfo.birthday+'000');
+            let newDate = new Date(timestamp);
+            that.userInfo.birthday = newDate;
+          }
           that.classStatus();
 				}else{
           that.$alert(response.data.errMsg, '系统错误', {
@@ -232,30 +214,41 @@ export default {
         'ename': this.userInfo.ename,
         'sex': this.userInfo.sex,
         'birthday': this.userInfo.birthday,
-        'headimg': ''
+        'headimg': this.picValue
 			},
-			keys = Object.keys(userid),
+			keys = Object.keys(data),
 			i, len = keys.length;
 			keys.sort();
 			let p = '';
 			for (i = 0; i < len; i++) {
 				let k = keys[i];
-				p += k+'='+userid[k]+'&';
+				p += k+'='+data[k]+'&';
 			}
 			p = p.substring(0,p.length-1);
 			let tokens = md5(`ilovewan${p}banghanchen`);
 			// ajax
+      console.log(data);
 			let url = '/api/v1/users/update';
+      let formData = new FormData();
+      formData.append('id', window.localStorage.getItem('id'));
+      formData.append('cname', this.userInfo.cname);
+      formData.append('ename', this.userInfo.ename);
+      formData.append('sex', this.userInfo.sex);
+      formData.append('birthday', this.userInfo.birthday);
+      formData.append('headimg', this.picValue);
 			let config = {
 				headers:{
 					versions: '1',
-					tokens: tokens
+					tokens: tokens,
+          as: '3'
 				}
       }
-			axios.post(url,data,config)
+			axios.post(url,formData,config)
 			.then(function (response) {
+        console.log(response);
 				if (response.data.errCode == 0) {
-          
+          console.log('保存成功！');
+          window.location.href = '/usercenter';
 				}else{
           that.$alert(response.data.errMsg, '系统错误', {
 						confirmButtonText: '确定',
@@ -275,7 +268,51 @@ export default {
     },
     // 更改邮箱
     saveEmail(){
-      
+      let that=this;
+			// md5验证
+			let info = {
+				'id': window.localStorage.getItem('id'),
+        'smscode': '1',
+        'email': this.dialogEmailText
+			},
+			keys = Object.keys(info),
+			i, len = keys.length;
+			keys.sort();
+			let p = '';
+			for (i = 0; i < len; i++) {
+				let k = keys[i];
+				p += k+'='+info[k]+'&';
+			}
+			p = p.substring(0,p.length-1);
+			let tokens = md5(`ilovewan${p}banghanchen`);
+			// ajax
+			let url = '/api/v1/users/bind_email';
+			let config = {
+				headers:{
+					versions: '1',
+					tokens: tokens
+				}
+      }
+      let formData = new FormData();
+      formData.append('id', window.localStorage.getItem('id'));
+      formData.append('smscode', '1');
+      formData.append('email', this.dialogEmailText);
+			axios.post(url,formData,config)
+			.then(function (response) {
+        console.log(response);
+        if (response.data.errCode == '0') {
+          that.userInfo.email = that.dialogEmailText;
+          that.classStatus();
+          that.dialogEmailVisible = false;
+        }else {
+          that.tooltipEmailContent = response.data.errMsg;
+        }
+			})
+    },
+    cancal(){
+      this.dialogEmailVisible = false;
+      this.dialogEmailText = '';
+      this.tooltipEmailContent = '';
     },
     // 更改手机号
     savePhone(){
@@ -299,7 +336,8 @@ export default {
           .info-title{ margin-right: 15px;
             h3{ font-size: 16px; font-weight: 500; line-height: 40px; color: #333;}
           }
-          .info-img{ width: 120px; height: 120px;
+          .edit-avatar{ margin-left: 20px;}
+          .info-avatar{ margin-left: 40px; width: 140px; height: 140px;
             img{ width: 100%;}
           }
           .info-radio{ line-height: 40px;}
@@ -315,4 +353,7 @@ export default {
 .showbox{
   .el-input{ width: 80%;}
 }
+.img-inputer--small{ width: 100px; height: 100px;}
+.img-inputer:hover{ transform: scale(1);}
+
 </style>
