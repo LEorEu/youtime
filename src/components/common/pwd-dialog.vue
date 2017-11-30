@@ -13,8 +13,8 @@
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogPwdVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogPwdVisible = false">确 定</el-button>
+            <el-button @click="changePwd(false)">取 消</el-button>
+            <el-button type="primary" @click="changePwd(false)">确 定</el-button>
         </div>
     </el-dialog>
 </div>
@@ -22,12 +22,18 @@
 
 <script>
 export default {
+    props: ['pwdIsDoalog','changePwd'],
     data() {
         return {
             pwd: [],
-            dialogPwdVisible: false,
+            dialogPwdVisible: this.pwdIsDoalog,
             formLabelWidth: '100px'
         }
+    },
+    watch:{
+        pwdIsDoalog(val){
+            this.dialogPwdVisible=val;
+        },
     }
 }
 </script>

@@ -113,7 +113,7 @@
           <!-- phone-dialog -->
           <phone-dialog></phone-dialog>
           <!-- pwd-dialog -->
-          <pwd-dialog></pwd-dialog>
+          <pwd-dialog v-bind:pwdIsDoalog='dialogPwdVisible' :changePwd='changePwddialog'></pwd-dialog>
         </div>
 			</div>
 		</div>
@@ -148,6 +148,7 @@ export default {
         phoneText: '修改手机号'
       },
       dialogEmailVisible: false,
+      dialogPwdVisible:false,
       dialogEmailText: '',
       tooltipEmailContent: '',
       formLabelWidth: '100px',
@@ -317,6 +318,10 @@ export default {
     // 更改手机号
     savePhone(){
       
+    },
+    //更改pwddialog状态
+    changePwddialog(val){
+      this.dialogPwdVisible=val;
     }
   }
 }
