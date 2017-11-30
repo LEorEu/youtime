@@ -6,7 +6,7 @@
 			</div>
 		</div>
 		<div class="myscore-main">
-			<div class="myscore-content flex">
+			<div class="myscore-content flex" v-show="!show">
 				<div class="myscore-list">
 					<ul>
 						<li class="myscore-item" v-for="(grade, index) in grades" :key="grade.index">
@@ -52,6 +52,14 @@
 					</ul>
 				</div>
 			</div>
+			<div class="alert-box" v-show="show">
+				<div class="notfound">
+					<div class="notfound-img">
+						<img src="../../../static/img/icon-null.png" alt="">
+					</div>
+					<p>{{null_text}}</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -65,7 +73,9 @@ export default {
 		return {
 			grades: [],
 			lvs: [],
-			skills: []
+			skills: [],
+			show: false,
+			null_text: ''
 		}
 	},
 	mounted(){
@@ -103,6 +113,8 @@ export default {
 					that.grades = response.data.data;
 					that.ecaluation();
 				}else{
+					that.null_text = '您还没有进行过测评，没有成绩可供显示'
+					that.show = true;
 					console.log('没有数据');
 				}
 			})
@@ -169,13 +181,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.myscore{ width: 100%;
+.myscore{ width: 100%; height: 100%;
 	.myscore-menu{ padding-left: 30px; width: 100%; height: 60px; background-color: #fff; border: 1px solid #dddddd;
 		.myscore-title{ display: inline-block; padding: 0 20px; height: 58px; border-bottom: 2px solid #FF7048; box-sizing: border-box;
 			h2{ line-height: 58px; font-size: 16px; font-weight: 400; color: #2d2f33;}
 		}
 	}
-	.myscore-main{ width: 100%; border-top: 10px solid #F2F3F4;
+	.myscore-main{ width: 100%; height: 100%; border-top: 10px solid #F2F3F4;
 		.myscore-content{
 			.myscore-list{ min-width: 300px; border-right: 10px solid #f2f3f4;
 				.myscore-item{ padding: 20px; height: 180px; justify-content:center; align-items:Center; background-color: #fff; border: 1px solid #dddddd;
@@ -218,6 +230,14 @@ export default {
 					}
 				}
 			}
+		}
+	}
+	.alert-box{ display: table; width: 100%; height: 100%;
+		.notfound{ display: table-cell; vertical-align: middle; width: 100%; height: 100%;
+			.notfound-img{ margin: 0 auto; width: 300px;
+				img{ max-width: 100%;}
+			}	
+			p{ margin-top: 20px; font-size: 18px; text-align: center; color: #666;}
 		}
 	}
 }

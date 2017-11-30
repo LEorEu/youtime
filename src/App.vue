@@ -1,10 +1,9 @@
 <template>
-    <div class="main-content">
+    <div class="main">
       	<router-view></router-view>
     </div>
 </template>
 
 <style lang="less">
-.main-content{ width: 100%; height: 100%;
-}
+.main{ width: 100%; height: 100%;}
 </style>

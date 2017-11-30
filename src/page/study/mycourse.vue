@@ -40,9 +40,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.mycourse{ width: 100%; background-color: #fff; border: 1px solid #E6E6E6;
+.mycourse{ width: 100%;
 	.course-menu{ width: 100%; height: 60px;
-		.el-menu{ margin-left: 30px;
+		.el-menu{ padding-left: 30px; border: 1px solid #E6E6E6;
 			.el-menu-item{ font-size: 16px; border-color: #FF7048;
 			a{ display: block;}
 			}

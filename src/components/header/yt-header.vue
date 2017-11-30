@@ -8,7 +8,7 @@
 				<ul class="nav-menu clearfix">
 					<li><router-link to="/">首页</router-link></li>
 					<li><router-link to="/curriculum">课程介绍</router-link></li>
-					<!-- <li><router-link to="/client">下载客户端</router-link></li> -->
+					<li><router-link to="/client">下载客户端</router-link></li>
 				</ul>
 			</nav>
 			<div class="nav nav-login fl-r">

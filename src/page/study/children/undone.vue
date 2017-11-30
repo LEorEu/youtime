@@ -1,6 +1,6 @@
 <template>
 	<div class="course-box">
-		<div class="transition-box" v-show="show">
+		<div class="transition-box" v-show="show,!nullshow">
 			<div class="course-list">
 				<ul>
 					<li class="flex" v-for="(course, index) in courses" :key="course.index">
@@ -47,6 +47,14 @@
 				<p>返回</p>
 			</div>
 		</div>
+		<div class="alert-box" v-show="nullshow">
+			<div class="notfound">
+				<div class="notfound-img">
+					<img src="../../../../static/img/icon-null.png" alt="">
+				</div>
+				<p>{{null_text}}</p>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -61,7 +69,8 @@ export default {
 			block: false,
 			tk_url: '',
 			newDate: new Date(),
-			show: true
+			show: true,
+			nullshow: false
         }
 	},
 	mounted(){
@@ -97,7 +106,12 @@ export default {
 			}
 			axios.post(url,courseList,config)
 			.then(function (response) {
-				that.courses=response.data.data
+				if (response.data.errCode == 0) {
+					that.courses=response.data.data;
+				}else{
+					that.null_text = '您还没有未上的课程，请先预约'
+					that.show = true;
+				}
 			})
 		},
 		typeDistinguish(item){
@@ -226,8 +240,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.course-box{ padding: 40px 40px 60px;
-	.course-list{
+.course-box{ 
+	.course-list{ padding: 40px 40px 60px; background-color: #fff; border: 1px solid #E6E6E6;
 		.course-left{ position: relative; width: 12px;
 			.line{ margin-left: 5px; width: 2px; height: 100%; background-color: #f3f3f3;}
 			.icon-round{ position: absolute; display: inline-block; top: 0px; left: 0px; width:12px; height: 12px; border-radius: 100%; border: 1px solid #999; background-color: #fff;}

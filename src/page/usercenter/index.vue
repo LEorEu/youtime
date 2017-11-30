@@ -96,22 +96,9 @@
             <el-button type="primary" @click="saveUserInfo()">保存</el-button>
           </div>
           <!-- email-dialog -->
-          <div class="email-showbox showbox">
-            <el-dialog title="修改邮箱" :visible.sync="dialogEmailVisible">
-              <el-form>
-                <el-form-item label="邮箱地址" :label-width="formLabelWidth">
-                    <el-input v-model="dialogEmailText" type="email" placeholder="请输入邮箱"></el-input>
-                    <span>{{tooltipEmailContent}}</span>
-                </el-form-item>
-              </el-form>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="cancal()">取 消</el-button>
-                <el-button type="primary" @click="saveEmail()">确 定</el-button>
-              </div>
-            </el-dialog>
-          </div>
+          <email-dialog v-bind:emailIsDoalog='dialogEmailVisible' :changeEmail='changeEmaildialog'></email-dialog>
           <!-- phone-dialog -->
-          <phone-dialog></phone-dialog>
+          <phone-dialog v-bind:phoneIsDoalog='dialogPhoneVisible' :changePhone='changePhonedialog'></phone-dialog>
           <!-- pwd-dialog -->
           <pwd-dialog v-bind:pwdIsDoalog='dialogPwdVisible' :changePwd='changePwddialog'></pwd-dialog>
         </div>
@@ -124,15 +111,18 @@
 import VueImgInputer from 'vue-img-inputer'
 import ytHeader from '../../components/header/yt-header'
 import sAside from '../../components/common/s-aside'
+import emailDialog from '../../components/common/email-dialog'
 import phoneDialog from '../../components/common/phone-dialog'
 import pwdDialog from '../../components/common/pwd-dialog'
 import md5 from 'blueimp-md5'
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   components: {
     'yt-header': ytHeader,
     's-aside': sAside,
+    'email-dialog': emailDialog,
     'phone-dialog': phoneDialog,
     'pwd-dialog': pwdDialog,
     VueImgInputer
@@ -149,8 +139,7 @@ export default {
       },
       dialogEmailVisible: false,
       dialogPwdVisible:false,
-      dialogEmailText: '',
-      tooltipEmailContent: '',
+      dialogPhoneVisible:false,
       formLabelWidth: '100px',
       picValue: ''
     }
@@ -214,7 +203,7 @@ export default {
         'cname': this.userInfo.cname,
         'ename': this.userInfo.ename,
         'sex': this.userInfo.sex,
-        'birthday': this.userInfo.birthday,
+        'birthday': moment(this.userInfo.birthday).unix(),
         'headimg': this.picValue
 			},
 			keys = Object.keys(data),
@@ -235,14 +224,14 @@ export default {
       formData.append('cname', this.userInfo.cname);
       formData.append('ename', this.userInfo.ename);
       formData.append('sex', this.userInfo.sex);
-      formData.append('birthday', this.userInfo.birthday);
+      formData.append('birthday', moment(this.userInfo.birthday).unix());
       formData.append('headimg', this.picValue);
 			let config = {
 				headers:{
 					versions: '1',
 					tokens: tokens,
           as: '3'
-				}
+				} 
       }
 			axios.post(url,formData,config)
 			.then(function (response) {
@@ -267,61 +256,20 @@ export default {
         this.status.phoneText = '添加手机'
       }
     },
-    // 更改邮箱
-    saveEmail(){
-      let that=this;
-			// md5验证
-			let info = {
-				'id': window.localStorage.getItem('id'),
-        'smscode': '1',
-        'email': this.dialogEmailText
-			},
-			keys = Object.keys(info),
-			i, len = keys.length;
-			keys.sort();
-			let p = '';
-			for (i = 0; i < len; i++) {
-				let k = keys[i];
-				p += k+'='+info[k]+'&';
-			}
-			p = p.substring(0,p.length-1);
-			let tokens = md5(`ilovewan${p}banghanchen`);
-			// ajax
-			let url = '/api/v1/users/bind_email';
-			let config = {
-				headers:{
-					versions: '1',
-					tokens: tokens
-				}
-      }
-      let formData = new FormData();
-      formData.append('id', window.localStorage.getItem('id'));
-      formData.append('smscode', '1');
-      formData.append('email', this.dialogEmailText);
-			axios.post(url,formData,config)
-			.then(function (response) {
-        console.log(response);
-        if (response.data.errCode == '0') {
-          that.userInfo.email = that.dialogEmailText;
-          that.classStatus();
-          that.dialogEmailVisible = false;
-        }else {
-          that.tooltipEmailContent = response.data.errMsg;
-        }
-			})
+    //更改邮箱dialog状态
+    changeEmaildialog(val,text){
+      this.dialogEmailVisible=val;
+      this.this.userInfo.email = text;
+      this.classStatus();
     },
-    cancal(){
-      this.dialogEmailVisible = false;
-      this.dialogEmailText = '';
-      this.tooltipEmailContent = '';
-    },
-    // 更改手机号
-    savePhone(){
-      
-    },
-    //更改pwddialog状态
+    //更改密码dialog状态
     changePwddialog(val){
       this.dialogPwdVisible=val;
+    },
+    //更改手机号dialog状态
+    changePhonedialog(val){
+      this.dialogPhoneVisible=val;
+      this.classStatus();
     }
   }
 }
@@ -354,9 +302,6 @@ export default {
       }
     }
   }
-}
-.showbox{
-  .el-input{ width: 80%;}
 }
 .img-inputer--small{ width: 100px; height: 100px;}
 .img-inputer:hover{ transform: scale(1);}

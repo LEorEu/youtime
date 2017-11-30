@@ -3,7 +3,7 @@
 		<div class="aside-info">
 			<div class="user-img">
 				<router-link to="/usercenter">
-					<img :src="users.headimg" title="点击进入编辑个人信息">
+					<img :src="users.headimg">
 				</router-link>
 			</div>
 			<div class="user-name">
@@ -72,6 +72,9 @@ export default {
 				that.users=response.data.data;
 				if (that.users.cname == '') {
 					that.users.cname='优唐学员';
+				}
+				if (that.users.headimg == '') {
+					that.users.headimg='../../../static/img/default-avatar.jpg';
 				}
 			})
 		}

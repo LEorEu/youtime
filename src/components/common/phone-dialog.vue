@@ -7,8 +7,8 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogPhoneVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogPhoneVisible = false">确 定</el-button>
+                <el-button @click="changePhone(false)">取 消</el-button>
+                <el-button type="primary" @click="changePhone(false)">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -16,13 +16,18 @@
 
 <script>
 export default {
+    props: ['phoneIsDoalog','changePhone'],
     data() {
         return {
-            pwd: [],
-            dialogPhoneVisible: false,
+            dialogPhoneVisible: this.phoneIsDoalog,
             dialogPhoneText: '',
             formLabelWidth: '100px'
         }
+    },
+    watch:{
+        phoneIsDoalog(val){
+            this.dialogPhoneVisible=val;
+        },
     }
 }
 </script>

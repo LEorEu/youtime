@@ -1,6 +1,6 @@
 <template>
 	<div class="course-box">
-		<div class="course-list">
+		<div class="course-list" v-show="!show">
 			<ul>
 				<li class="flex" v-for="(course, index) in courses" :key="course.index">
 					<div class="course-left">
@@ -37,6 +37,14 @@
 				</li>
 			</ul>
 		</div>
+		<div class="alert-box" v-show="show">
+			<div class="notfound">
+				<div class="notfound-img">
+					<img src="../../../../static/img/icon-null.png" alt="">
+				</div>
+				<p>{{null_text}}</p>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -45,10 +53,12 @@ import md5 from 'blueimp-md5'
 import axios from 'axios'
 
 export default {
-	data: function(){
+	data(){
         return{
 			courses: [],
-			block: false
+			block: false,
+			show: false,
+			null_text: ''
         }
 	},
 	mounted(){
@@ -84,7 +94,12 @@ export default {
 			}
 			axios.post(url,courseList,config)
 			.then(function (response) {
-				that.courses=response.data.data
+				if (response.data.errCode == 0) {
+					that.courses=response.data.data;
+				}else{
+					that.null_text = '您还没有已上的课程，请先预约'
+					that.show = true;
+				}
 			})
 		},
 		typeDistinguish(item){
@@ -128,8 +143,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.course-box{ padding: 40px 40px 60px;
-	.course-list{
+.course-box{ 
+	.course-list{ padding: 40px 40px 60px; background-color: #fff; border: 1px solid #E6E6E6;
 		.course-left{ position: relative; width: 12px;
 			.line{ margin-left: 5px; width: 2px; height: 100%; background-color: #f3f3f3;}
 			.icon-round{ position: absolute; display: inline-block; top: 0px; left: 0px; width:12px; height: 12px; border-radius: 100%; border: 1px solid #999; background-color: #fff;}
@@ -160,6 +175,14 @@ export default {
 				}
 				.course-btn{ width: 140px; height: 40px; font-size: 16px; background-color: #fff; color: #727272; border: 1px solid #D1D1D1; border-radius: 4px; cursor: pointer;}
 			}
+		}
+	}
+	.alert-box{ display: table; width: 100%; height: 100%;
+		.notfound{ display: table-cell; vertical-align: middle; width: 100%; height: 100%;
+			.notfound-img{ margin: 0 auto; width: 300px;
+				img{ max-width: 100%;}
+			}	
+			p{ margin-top: 20px; font-size: 18px; text-align: center; color: #666;}
 		}
 	}
 }

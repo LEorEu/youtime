@@ -48,6 +48,7 @@ export default {
             axios.get('/api/v1/getip')
             .then(function (response) {
                 that.ip = response.data.data;
+                console.log(that.ip);
                 let url = '/api/v1/user/ipto_info';
                 axios.post(url,that.ip)
                 .then(function (response) {
