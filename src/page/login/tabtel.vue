@@ -4,9 +4,6 @@
         <div class="account">
             <p class="input-title">手机号</p>
             <div class="input-row">
-                <!-- <select class="countrycode" v-model="loginCountry" name="countrycode">
-                    <option value="">+86</option>
-                </select> -->
                 <input type="text" name="countrycode" class="countrycode form-control" v-model="loginCountry" placeholder="国家码">
                 <input type="tel" v-model="loginTel" name="account" class="form-control" maxlength="11" placeholder="输入手机号">
             </div>
@@ -48,7 +45,6 @@ export default {
             axios.get('/api/v1/getip')
             .then(function (response) {
                 that.ip = response.data.data;
-                console.log(that.ip);
                 let url = '/api/v1/user/ipto_info';
                 axios.post(url,that.ip)
                 .then(function (response) {

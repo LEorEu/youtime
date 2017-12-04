@@ -72,7 +72,7 @@ export default {
                 {
                     src: '../../static/img/client-pad.png',
                     title: 'iPad客户端下载',
-                    text: '软件系统建议：iOS 9.0 或更更⾼高版本<br/>下载⽅法：前往APP Store搜索“优唐中⽂”下载',
+                    text: '软件系统建议：iOS 9.0 或更更⾼高版本<br/>下载⽅法：前往APP Store搜索“优唐中⽂HD”下载',
                     QRcode: ''
                 },
                 {
@@ -84,7 +84,7 @@ export default {
                 {
                     src: '../../static/img/client-android.png',
                     title: 'Android客户端下载',
-                    text: '软件系统建议：建议Android4.4以上版本<br/>下载方法一：下载到本地<br/>下载方法二：前往google play搜索“优唐中文”下载<br/>下载方法三：扫一扫二维码下载（带二维码）',
+                    text: `软件系统建议：建议Android4.4以上版本<br/>下载方法一：<a class="client-down" href="http://wanbangoss.oss-cn-beijing.aliyuncs.com/apk/youtangzhongwen.apk">下载到本地</a><br/>下载方法二：前往google play搜索“优唐中文”下载<br/>下载方法三：扫一扫二维码下载（带二维码）`,
                     QRcode: 'http://wanbangoss.oss-cn-beijing.aliyuncs.com/youtang/static/img/qrcode/qr-android.png'
                 }
             ],

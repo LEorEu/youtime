@@ -70,7 +70,8 @@ export default {
 			tk_url: '',
 			newDate: new Date(),
 			show: true,
-			nullshow: false
+			nullshow: false,
+			null_text: ''
         }
 	},
 	mounted(){

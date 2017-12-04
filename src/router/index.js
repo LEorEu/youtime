@@ -69,11 +69,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/cn'
     },
     //首页
     {
-      path: '/home',
+      path: '/cn',
       component: home
     },
     //客户端下载

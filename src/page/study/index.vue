@@ -25,7 +25,7 @@ export default {
 <style lang="less" scoped>
 .study{ width: 100%; height: 100%; background-color: #F2F3F4; overflow: hidden;
 	.main-container{ height: 100%;
-		.main-content{ padding: 20px; padding-bottom: 70px; width: 100%; overflow-y: scroll;}
+		.main-content{ width: 100%; padding: 20px; padding-bottom: 70px; overflow-y: scroll;}
 	}
 }
 </style>

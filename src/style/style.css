@@ -109,3 +109,11 @@ img {
 .container{
     margin: 0 auto;
 }
+.down-info a{
+    text-decoration: underline;
+    color: #666;
+}
+.down-info a:hover{
+    transition: color .3s;
+    color: #ff6325;
+}

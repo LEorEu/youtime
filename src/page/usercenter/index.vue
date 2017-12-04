@@ -276,9 +276,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.ucenter{ width: 100%; height: 100%; background-color: #F2F3F4; overflow: hidden;
-	.main-container{ height: 100%;
-    .main-content{ padding: 20px; padding-bottom: 70px; overflow-y: scroll;
+.ucenter{ width: 100%; height: 100%; background-color: #F2F3F4; overflow: hidden; 
+	.main-container{ width: 100%; height: 100%;
+    .main-content{ width: 100%; padding: 20px; padding-bottom: 70px; overflow-y: scroll;
       .ucenter-menu{ padding-left: 30px; width: 100%; height: 60px; background-color: #fff; border: 1px solid #dddddd;
         .ucenter-title{ display: inline-block; padding: 0 20px; height: 58px; border-bottom: 2px solid #FF7048; box-sizing: border-box;
           h2{ line-height: 58px; font-size: 16px; font-weight: 400; color: #2d2f33;}
