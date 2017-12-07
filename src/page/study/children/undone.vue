@@ -31,8 +31,8 @@
 									</div>
 								</div>
 								<div class="course-btns fl-r clearfix">
-									<button class="course-btn btn-cancel fl-r" @click="uplesson(course.id)" v-if="course.type == 0" :style="{display:block?'block':''}">取消预约</button>
-									<button class="course-btn btn-enter fl-r" @click="tolink(course.id,course.type)">进入教室</button>
+									<button class="course-btn btn-cancel fl-r" @click="uplesson(course.parent_id)" v-if="course.type == 0" :style="{display:block?'block':''}">取消预约</button>
+									<button class="course-btn btn-enter fl-r" @click="tolink(course.parent_id,course.type)">进入教室</button>
 								</div>
 							</div>
 						</div>
