@@ -203,10 +203,10 @@ export default {
 			}
 			// md5验证
 			let talk_cloud = {
-				'schid': 534,
+				'schid': lesson,
 				'type': '2',
-				'user_id': 67,
-				'lesson_type': 1
+				'user_id': ls,
+				'lesson_type': type
 			},
 			keys = Object.keys(talk_cloud),
 			i, len = keys.length;
