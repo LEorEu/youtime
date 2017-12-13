@@ -7,7 +7,7 @@
             <p>{{moment.unix(dates[dindex-1]).format('dddd')}}</p>
             <input type="hidden">
             <li class="time" v-for="(item, index) in rtdate" :key="item.index">
-                <span class="myspan" v-if='tebelRender(item.status)' @click="makeclass(dindex,item.time)">可预约</span>
+                <el-button class="mybutton" v-if='tebelRender(item.status)' :loading="btnStatus" @click="makeclass(dindex,item.time)">可预约</el-button>
             </li>
         </ul>
     </div>
@@ -24,7 +24,9 @@ export default {
 			tz: '',			//获取当前时区
 			rtdates: '',	//预约课程具体时间
 			times: ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00'],	//预约课程时间段
-			dates: []
+			dates: [],
+			btnStatus: false
+
 		}
 	},
 	mounted(){
@@ -79,12 +81,14 @@ export default {
 		// 点击约课状态
 		makeclass(index,time) {
 			let that=this;
+			this.btnStatus = true;
 			let dateStr = parseInt(this.dates[index-1].toString()+'000');
 			let newDate = new Date(dateStr);
 			let hours = parseInt(time.substring(0,2));
 			let minutes = parseInt(time.substring(3,5));
 			newDate.setHours(hours,minutes,0);
 			let date = parseInt(Number(newDate).toString().substring(0,10));
+			console.log(date);
 			// md5验证
 			let info = {
 				'time': date,
@@ -110,8 +114,8 @@ export default {
 			}
 			axios.post(url,info,config)
 			.then(function (response) {
+				that.btnStatus = false;
 				that.getTimeList(that.tz);
-				console.log(response);
 				if (response.data.errCode == 0) {
 					that.tebelRender();
 					that.$alert(response.data.errMsg, '预约成功', {
@@ -172,7 +176,7 @@ export default {
     .table-date{ width: 90px; text-align: center; box-sizing: border-box;
         p{ height: 24px; margin-bottom: 10px; text-align: center; color: #666;}
         .time{ width: 90px; height: 60px; border-top: 1px solid #E5D9D3; border-right: 1px solid #E5D9D3; background-color: #fff9f5;
-            .myspan{ display: block; width: 89px; height: 60px; line-height: 60px; font-size: 14px; background-color: #FF6325; color: #fff; cursor: pointer;}
+            .mybutton{ display: block; width: 89px; height: 60px; font-size: 14px; background-color: #FF6325; color: #fff; cursor: pointer;}
         }
         .time:nth-last-child(1){ border-bottom: 1px solid #E5D9D3;}
     }

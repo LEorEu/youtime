@@ -275,10 +275,10 @@ export default {
 				.course-img{ width: 330px; height: 230px; overflow: hidden; text-align: center; color: #fff;}
 				.course-text{ width: calc(~'100% - 345px'); margin-left: 15px; margin-bottom: 10px;
 					.course-title{ font-size: 18px; line-height: 30px; color: #4d4d4d;
-						.course-type{ margin-right: 15px; width: 50px; height: 30px; line-height: 30px; text-align: center; color: #fff;}
+						.course-type{ margin-right: 15px; width: 50px; height: 30px; line-height: 30px; text-align: center; font-size: 14px; color: #fff;}
 						.typev1{ background-color: #F9D872;}
 						.typev4{ background-color: #60C5F7;}
-						.typetest{ width: 60px; background-color: #F9D872;}
+						.typetest{ background-color: #F9D872;}
 					}
 					.course-subtitle{ margin-top: 10px; font-size: 16px; color: #818181;}
 					.course-datetimes{ margin-top: 10px; font-size: 16px; color: #818181;}
@@ -295,8 +295,8 @@ export default {
 		}
 	}
 	.dialog-footer a{ display: inline-block;}
-	#iframe{ position: absolute; top: 0px; left: 0px;}
-	.return-btn{ position: absolute; top: 6px; left: 15px; z-index: 999; cursor: pointer;
+	#iframe{ position: absolute; top: 0px; left: 0px; background-color: #666;}
+	.return-btn{ position: absolute; top: 6px; left: 15px; width: 60px; height: 24px; z-index: 999; cursor: pointer;
 		.el-icon-arrow-left{ color: #d1d1d1; font-size: 20px;}
 		p{ margin-left: 5px; line-height: 20px; font-size: 14px; color: #d1d1d1;}
 	}

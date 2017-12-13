@@ -32,7 +32,7 @@
 				<div class="paypal-btn">
 					<div id="paypal-button-container"></div>
 				</div>
-				<p>购买即代表同意<span>《优唐中文课程服务协议》</span></p>
+				<p>购买即代表同意<span><a href="https://www.wanbanghanwo.com/tools/services" target="_blank">《优唐中文课程服务协议》</a></span></p>
 			</div>	
 		</div>
 	</div>

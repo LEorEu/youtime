@@ -6,8 +6,8 @@
 			</div>
 		</div>
 		<div class="myscore-main">
-			<div class="myscore-content flex" v-show="!show">
-				<div class="myscore-list">
+			<div class="myscore-content clearfix" v-show="!show">
+				<div class="myscore-list fl-l">
 					<ul>
 						<li class="myscore-item" v-for="(grade, index) in grades" :key="grade.index">
 							<div class="grade-title flex">
@@ -20,7 +20,7 @@
 						</li>
 					</ul>
 				</div>
-				<div class="myscore-details">
+				<div class="myscore-details fl-l">
 					<ul class="details-list">
 						<li>
 							<div class="myscore-chart">
@@ -189,7 +189,7 @@ export default {
 	}
 	.myscore-main{ width: 100%; height: 100%; border-top: 10px solid #F2F3F4;
 		.myscore-content{
-			.myscore-list{ min-width: 300px; border-right: 10px solid #f2f3f4;
+			.myscore-list{ width: 300px; border-right: 10px solid #f2f3f4;
 				.myscore-item{ padding: 20px; height: 180px; justify-content:center; align-items:Center; background-color: #fff; border: 1px solid #dddddd;
 					.grade-title{ 
 						.grade-type{ width: 40px; height: 30px; line-height: 30px; text-align: center; color: #fff;}
@@ -203,7 +203,7 @@ export default {
 				.focus{ border: 1px solid #FF6325;}
 			}
 		}
-		.myscore-details{ 
+		.myscore-details{ width: calc(~'100% - 300px');
 			.details-list li { 
 				.myscore-chart{ padding: 20px; background-color: #fff; border: 1px solid #dddddd;
 					h3{ font-size: 24px; font-weight: 500; color: #ff6325;}

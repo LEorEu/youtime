@@ -16,9 +16,10 @@
 								<img :src="course.url_image" alt="">
 							</div>
 							<div class="course-text fl-l">
-								<div class="course-title">
+								<div class="course-title clearfix">
 									<div class="course-type fl-l" :class="typeClass(course.type)">{{typeDistinguish(course.type)}}</div>
-									<h2>{{course.title}}</h2>
+									<h2 class="fl-l">{{course.title}}</h2>
+									<div class="course-type fl-r" :class="classStatus(course.nt_come)">{{textStatus(course.nt_come)}}</div>
 								</div>
 								<p class="course-subtitle">{{course.describe}}</p>
 								<p class="course-datetimes">{{moment.unix(parseInt(course.datetimes)).format('MM月DD日 HH:mm')}}</p>
@@ -30,11 +31,11 @@
 								</div>
 							</div>
 							<div class="course-btns fl-r clearfix">
-                <button class="course-btn" @click="evalShow(course)">课程评价</button>
-                <!--<button id="is-grade" class="course-btn" v-show="gradeShow">已评价</button>-->
-								<!--  <button class="course-btn fl-r">复习</button> -->
-                <!--<evaluation></evaluation>-->
-              </div>
+								<button class="course-btn" @click="evalShow(course)">课程评价</button>
+								<!--<button id="is-grade" class="course-btn" v-show="gradeShow">已评价</button>-->
+												<!--  <button class="course-btn fl-r">复习</button> -->
+								<!--<evaluation></evaluation>-->
+							</div>
 						</div>
 					</div>
 				</li>
@@ -71,10 +72,10 @@ export default {
 		this.courseListFuc();
 	},
 	methods:{
-    // 弹窗
-    evalShow(course){
-      this.$refs.evaluation.showEvaluation(course)
-    },
+		// 弹窗
+		evalShow(course){
+			this.$refs.evaluation.showEvaluation(course)
+		},
 		// 未上的课列表
 		courseListFuc(){
 			let that=this;
@@ -147,7 +148,31 @@ export default {
                     break;
             }
             return text;
-        }
+		},
+		classStatus(item){
+			let text='';
+            switch(item){
+                case "":
+                    text='null';
+                    break;
+                case 1:
+                    text='ok';
+                    break;
+            }
+            return text;
+		},
+		textStatus(item){
+			let text='';
+            switch(item){
+                case "":
+                    text='缺席';
+                    break;
+                case 1:
+                    text='已上';
+                    break;
+            }
+            return text;
+		}
 	}
 }
 </script>
@@ -164,18 +189,13 @@ export default {
 				p{ font-size: 18px; color: #818181;}
 			}
 			.course-info{ padding: 20px; min-width: 900px; border: 1px solid #E6E6E6; background: #F6F6F6;
-				.course-type{ width: 50px; height: 30px; line-height: 30px; text-align: center; color: #fff;}
+				.course-type{ margin-right: 15px; width: 50px; height: 30px; line-height: 30px; text-align: center; font-size: 14px; color: #fff;}
 				.typev1{background-color: #F9D872;}
 				.typev4{background-color: #60C5F7;}
 				.typelive{background-color: #F9D872;}
-				.typetest{width: 60px; background-color: #F9D872;}
+				.typetest{background-color: #F9D872;}
 				.course-img{ width: 330px; height: 230px; overflow: hidden; text-align: center; color: #fff;}
 				.course-text{ width: calc(~'100% - 345px'); margin-left: 15px; margin-bottom: 10px;
-					.course-title{font-size: 18px; line-height: 30px; color: #4d4d4d;
-						.course-type{ margin-right: 15px; width: 50px; height: 30px; line-height: 30px; text-align: center; color: #fff;}
-						.typev1{background-color: #F9D872;}
-						.typev4{background-color: #60C5F7;}
-					}
 					.course-subtitle{ margin-top: 10px; font-size: 16px; color: #818181;}
 					.course-datetimes{ margin-top: 10px; font-size: 16px; color: #818181;}
 					.course-teacher{ margin-top: 10px; font-size: 16px; color: #818181;
@@ -183,6 +203,9 @@ export default {
 						p{ margin-left: 10px; line-height: 48px;}
 					}
 				}
+				h2{ font-size: 18px; line-height: 30px; color: #333;}
+				.null{ background-color: #ff7b48;}
+				.ok{ background-color: #44b944;}
         #is-grade{ background-color: #F2F3F4 }
 				.course-btn{ width: 140px; height: 40px; font-size: 16px; margin-right: 10px;background-color: #fff; color: #727272; border: 1px solid #D1D1D1; border-radius: 4px; cursor: pointer;}
       }

@@ -73,7 +73,7 @@ export default {
                     src: '../../static/img/client-pad.png',
                     title: 'iPad客户端下载',
                     text: '软件系统建议：iOS 9.0 或更更⾼高版本<br/>下载⽅法：前往APP Store搜索“优唐中⽂HD”下载',
-                    QRcode: ''
+                    QRcode: 'http://wanbangoss.oss-cn-beijing.aliyuncs.com/youtang/static/img/qrcode/qr-ipad.png'
                 },
                 {
                     src: '../../static/img/client-iphone.png',

@@ -1,21 +1,30 @@
 <template>
-  <div class="order" @click="getData">
-    <div class="list"><p class="title">我的订单</p></div>
+  <div class="myorder">
+    <div class="myorder-menu">
+			<div class="myorder-title">
+				<h2>我的订单</h2>
+			</div>
+		</div>
     <div class="list">
-      <div class="container">
-        <div class="course-type">
-          <img><h1>一对一课程</h1>
-        </div>
-        <div class="course-number">
-          <span>订单编号:</span><span>65465465</span>
-        </div>
-        <div class="pay-time">
-          <span>购买时间:</span><span>2017年10月11日</span>
-        </div>
-        <div class="price">
-          <span class="pay">实付金额:</span><span>￥55</span>
-        </div>
-      </div>
+      <ul>
+        <li v-for="(data, index) in datas" :key="data.index">
+          <div class="container">
+            <div class="course-title">
+              <!-- <span class="course-type">{{data.goods_type}}</span> -->
+              <h1>{{data.goods_name}}</h1>
+            </div>
+            <div class="course-number">
+              <span>订单编号:</span><span>{{data.order_id}}</span>
+            </div>
+            <div class="pay-time">
+              <span>购买时间:</span><span>{{moment.unix(data.pay_time).format('LLL')}}</span>
+            </div>
+            <div class="price">
+              <span class="pay">实付金额：</span><span style="color: #FF6325;">{{currency(data.currency_type)}}{{data.pay_price}}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -28,8 +37,11 @@
     components: { VueHeader, VueFooter },
     data(){
       return{
-        data: []
+        datas: []
       }
+    },
+    mounted(){
+      this.getData();
     },
     methods: {
       getData(){
@@ -37,22 +49,56 @@
           'user_id': window.localStorage.getItem('id'),
           'type' : '1',
           'page' : '1'
+        },
+        keys = Object.keys(data),
+        i, len = keys.length;
+        keys.sort();
+        let p = '';
+        for (i = 0; i < len; i++) {
+          let k = keys[i];
+          p += k+'='+data[k]+'&';
         }
-        axios.get('/api/v1/user/order_login', data).then((response) => {
-          this.data = response.data
-          console.log(this.data)
+        p = p.substring(0,p.length-1);
+        // ajax
+        let url = `/api/v1/user/order_login?${p}`;
+        axios.get(url, data).then((response) => {
+          this.datas = response.data.data.orders;
+          console.log(this.datas);
         })
-      }
+      },
+      currency(item){
+				let text='';
+				switch(item){
+					case "USD":
+							text='$';
+							break;
+					case "EUR":
+							text='€';
+							break;
+					case "GBP":
+							text='￡';
+							break;
+					case "RMB":
+							text='¥';
+							break;
+				}
+				return text;
+			},
     }
   }
 </script>
 
 <style lang="less" scoped>
-  .list{ width: 100%;margin-bottom: 20px;background: #fff;text-indent:20px;
-    .title{ height: 60px; font-size: 18px;line-height: 60px; color: #333; }
-    .container{ width: 100%; position: relative;height: 200px;padding-top: 20px;
-      .course-type{  height: 40px;display: flex;
-        img{margin-left: 20px; flex:1; width: 60px;height: 40px;max-width: 60px;border: 1px solid black }
+.myorder{ width: 100%; height: 100%;
+	.myorder-menu{ padding-left: 30px; width: 100%; height: 60px; background-color: #fff; border: 1px solid #dddddd;
+		.myorder-title{ display: inline-block; padding: 0 20px; height: 58px; border-bottom: 2px solid #FF7048; box-sizing: border-box;
+			h2{ line-height: 58px; font-size: 16px; font-weight: 400; color: #2d2f33;}
+		}
+	}
+  .list{ width: 100%;margin-bottom: 20px;text-indent:20px;
+    .title{ height: 60px; font-size: 18px;line-height: 60px; color: #333;background: #fff; }
+    .container{ margin-top: 10px; width: 100%; position: relative;height: 200px;padding-top: 20px;background: #fff;
+      .course-title{  height: 40px;display: flex;
         h1{flex: 1; display: inline-block; line-height: 40px; }
       }
       .course-number{ margin:20px 0 20px 0; span{ margin-right: 5px;color: #333;}}
@@ -60,11 +106,5 @@
       .price{ position: absolute;bottom: 20px;right: 20px; .pay{ color: black;} }
     }
   }
-  /*.list{ width: 100%;margin-bottom: 20px;background: #fff;text-indent:20px;}*/
-  /*.title{ height: 60px; font-size: 18px;line-height: 60px; color: #333;}*/
-  /*.container{position: relative;height: 200px;width: 100%;}*/
-  /*.course-type{  width: 100%; height: 40px; border: 1px solid red}*/
-  /*img{ width: 60px;height: 40px;border: 1px solid black} h1{ display: inline-block; line-height: 40px;}*/
-  /*.course-number{margin:20px 0 20px 0;} span{ margin-right: 10px;color: #333;}*/
-  /*.price{position: absolute;bottom: 20px;right: 20px;} .pay{ color: black;}*/
+}
 </style>
