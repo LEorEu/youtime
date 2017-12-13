@@ -69,6 +69,7 @@ export default {
 			}
 			axios.post(url,info,config)
 			.then(function (response) {
+				console.log(1);
 				if (response.data.data.is_show == '0') {
 					that.userStatusCode = '1';
 					that.userStatus = false;

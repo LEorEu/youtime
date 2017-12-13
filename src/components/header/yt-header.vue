@@ -13,7 +13,7 @@
 			</nav>
 			<div class="nav nav-login fl-r">
 				<ul>
-					<!-- <li><router-link to="/study/cart">购买课程</router-link></li> -->
+					<li><router-link to="/study/cart">购买课程</router-link></li>
 					<li v-if="this.checkLogin()">
 						<el-dropdown>
 							<span class="el-dropdown-link">Hi，{{users.cname}}同学<i class="el-icon-arrow-down el-icon--right"></i></span>

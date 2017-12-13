@@ -217,7 +217,6 @@ export default {
 			p = p.substring(0,p.length-1);
 			let tokens = md5(`ilovewan${p}banghanchen`);
 			// ajax
-      console.log(data);
 			let url = '/api/v1/users/update';
       let formData = new FormData();
       formData.append('id', window.localStorage.getItem('id'));
@@ -259,7 +258,7 @@ export default {
     //更改邮箱dialog状态
     changeEmaildialog(val,text){
       this.dialogEmailVisible=val;
-      this.this.userInfo.email = text;
+      this.userInfo.email = text;
       this.classStatus();
     },
     //更改密码dialog状态

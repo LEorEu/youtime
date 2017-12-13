@@ -32,7 +32,7 @@
 								</div>
 								<div class="course-btns fl-r clearfix">
 									<button class="course-btn btn-cancel fl-r" @click="uplesson(course.parent_id)" v-if="course.type == 0" :style="{display:block?'block':''}">取消预约</button>
-									<button class="course-btn btn-enter fl-r" @click="tolink(course.parent_id,course.type)">进入教室</button>
+									<button class="course-btn btn-enter fl-r" @click="tolink(course.parent_id,course.type)" :class="{disabled: isDisabled(course.parent_id)}">{{classroomStatus(course.parent_id)}}</button>
 								</div>
 							</div>
 						</div>
@@ -103,6 +103,7 @@ export default {
 				headers:{
 					versions: '1',
 					tokens: tokens,
+					as: '3'
 				}
 			}
 			axios.post(url,courseList,config)
@@ -114,6 +115,20 @@ export default {
 					that.show = true;
 				}
 			})
+		},
+		classroomStatus(item){
+            let text='';
+            if (item == '0') {
+				text = '等待开课'
+			}else {
+				text = '进入教室'
+			}
+            return text;
+		},
+		isDisabled(id){
+			if (id == '0') {
+				return true
+			}
 		},
 		typeDistinguish(item){
             let text='';
@@ -196,41 +211,45 @@ export default {
 		tolink(lesson,type){
 			let that=this;
 			let ls = window.localStorage.getItem('id');
-			if (type == 3) {
-				type = 1;
+			if (lesson == '0') {
+				console.log('请等待老师接课')
 			}else{
-				type = parseInt(type) + 1;
-			}
-			// md5验证
-			let talk_cloud = {
-				'schid': lesson,
-				'type': '2',
-				'user_id': ls,
-				'lesson_type': type
-			},
-			keys = Object.keys(talk_cloud),
-			i, len = keys.length;
-			keys.sort();
-			let p = '';
-			for (i = 0; i < len; i++) {
-				let k = keys[i];
-				p += k+'='+talk_cloud[k]+'&';
-			}
-			p = p.substring(0,p.length-1);
-			let tokens = md5('ilovewan' + p + 'banghanchen');
-			// ajax
-			let url = '/api/v1/talk_cloud/url';
-			let config = {
-				headers:{
-					versions: '1',
-					tokens: tokens
+				if (type == 3) {
+					type = 1;
+				}else{
+					type = parseInt(type) + 1;
 				}
+				// md5验证
+				let talk_cloud = {
+					'schid': lesson,
+					'type': '2',
+					'user_id': ls,
+					'lesson_type': type
+				},
+				keys = Object.keys(talk_cloud),
+				i, len = keys.length;
+				keys.sort();
+				let p = '';
+				for (i = 0; i < len; i++) {
+					let k = keys[i];
+					p += k+'='+talk_cloud[k]+'&';
+				}
+				p = p.substring(0,p.length-1);
+				let tokens = md5('ilovewan' + p + 'banghanchen');
+				// ajax
+				let url = '/api/v1/talk_cloud/url';
+				let config = {
+					headers:{
+						versions: '1',
+						tokens: tokens
+					}
+				}
+				axios.post(url,talk_cloud,config)
+				.then(function (response) {
+					that.tk_url = response.data.data.url;
+					that.show = false;
+				})
 			}
-			axios.post(url,talk_cloud,config)
-			.then(function (response) {
-				that.tk_url = response.data.data.url;
-				that.show = false;
-			})
 		},
 		tk_return(){
 			this.tk_url = '';
@@ -258,6 +277,7 @@ export default {
 						.course-type{ margin-right: 15px; width: 50px; height: 30px; line-height: 30px; text-align: center; color: #fff;}
 						.typev1{ background-color: #F9D872;}
 						.typev4{ background-color: #60C5F7;}
+						.typetest{ width: 60px; background-color: #F9D872;}
 					}
 					.course-subtitle{ margin-top: 10px; font-size: 16px; color: #818181;}
 					.course-datetimes{ margin-top: 10px; font-size: 16px; color: #818181;}
@@ -269,6 +289,7 @@ export default {
 				.course-btn{ width: 140px; height: 40px; font-size: 16px; background-color: #fff; color: #727272; border: 1px solid #D1D1D1; border-radius: 4px; cursor: pointer;}
 				.btn-enter{ background: #FF6325; color: #fff;}
 				.btn-cancel{ margin-left: 20px; background: #DEDEDE; color: #818181;}
+				.disabled{ background-color: #909090;}
 			}
 		}
 	}

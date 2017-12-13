@@ -67,7 +67,7 @@ export default {
 			// md5验证
 			let info = {
                 'userid': window.localStorage.getItem('id'),
-                'timestamp': ts
+                'time': ts
 			},
 			keys = Object.keys(info),
 			i, len = keys.length;
@@ -80,7 +80,7 @@ export default {
 			p = p.substring(0,p.length-1);
 			let tokens = md5(`ilovewan${p}banghanchen`);
 			// ajax
-			let url = '/api/v1/eoyuyue';
+			let url = '/api/v2/makelesson/testlesson';
 			let config = {
 				headers:{
 					versions: '1',

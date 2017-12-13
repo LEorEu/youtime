@@ -7,8 +7,8 @@
                         <p class="item-time">{{item.week_title}}</p>
                     </div>
                     <div class="item-info">
-                        <p>{{strSplit(item.week_title)[0]}}上课时间：<span>{{item.time_0}}</span></p>
-                        <p>{{strSplit(item.week_title)[1]}}上课时间：<span>{{item.time_1}}</span></p>
+                        <p>{{item.title_0}}上课时间：<span>{{item.time_0}}</span></p>
+                        <p>{{item.title_1}}上课时间：<span>{{item.time_1}}</span></p>
                         <div class="item-btn">
                             <button @click="yuyue(item.id)">我要上课</button>
                         </div>
@@ -36,7 +36,7 @@ export default {
         onebyfour(){
             let that=this;
 			// ajax
-			let url = '/api/v1/ipadonefourtime';
+			let url = '/api/v1/fourtimelist';
 			let config = {
 				headers:{
 					versions: '1',
@@ -44,6 +44,7 @@ export default {
             }
             axios.get(url,config)
             .then(function (response) {
+                console.log(response.data.data)
                 that.items = response.data.data;
             })
         },
@@ -84,10 +85,6 @@ export default {
                     })
                 }
 			})
-        },
-        strSplit(text){
-            let a = text.split('  ');
-            return a;
         }
     }
 }
