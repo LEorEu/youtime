@@ -19,7 +19,7 @@
 <script>
 
 import Undone from './children/undone'
-import Complete from './children/complete'
+import Complete from './children/complete/index'
 
 export default {
 	components: {

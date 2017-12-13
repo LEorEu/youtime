@@ -43,8 +43,9 @@ import Cart from '../page/study/cart'
 import Pay from '../page/study/pay'
 
 import MyCourse from '../page/study/mycourse'
+import myOrder from '../page/study/myOrder'
 import Undone from '../page/study/children/undone'
-import Complete from '../page/study/children/complete'
+import Complete from '../page/study/children/complete/index'
 
 import Reservation from '../page/study/reservation'
 import Onebyone from '../page/study/children/onebyone'
@@ -215,7 +216,13 @@ export default new Router({
       {
         path: 'pay',
         component: Pay
-      }]
+      },
+        // 我的订单
+        {
+          path: 'order',
+          component: myOrder
+        }
+      ]
     }
   ]
 })

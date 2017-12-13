@@ -24,7 +24,9 @@
 								<router-link to="/usercenter">
 									<el-dropdown-item>个人信息</el-dropdown-item>
 								</router-link>
-								<!-- <el-dropdown-item>我的订单</el-dropdown-item> -->
+                <router-link to="/study/order">
+                  <el-dropdown-item>我的订单</el-dropdown-item>
+                </router-link>
 								<!-- <router-link to="/help">
 									<el-dropdown-item>帮助与反馈</el-dropdown-item>
 								</router-link> -->
@@ -75,7 +77,7 @@ export default {
 			let that=this;
 			let ls = window.localStorage.getItem('id');
 			// md5验证
-			let studentInfo = 'id='+ls
+			let studentInfo = 'id='+ ls
 			let tokens = md5('ilovewan' + studentInfo + 'banghanchen');
 			// ajax
 			let url = '/api/v1/Studentuser_info?' + studentInfo;
@@ -116,7 +118,7 @@ export default {
 				a:hover{ transition: all .3s; color: #FF6325; background-color: #fff;}
 				.el-dropdown{ margin-left: 20px;
 					span{ line-height: 60px; font-size: 14px; color: #fff;}
-				} 
+				}
 			}
 		}
 	}

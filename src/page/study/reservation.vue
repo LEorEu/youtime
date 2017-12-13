@@ -36,7 +36,7 @@ export default {
 			userStatusCode: ''
 		};
 	},
-	mounted(){
+	created(){
 		this.getUserinfo();
 	},
 	methods: {
@@ -44,6 +44,7 @@ export default {
 			console.log(key, keyPath);
 		},
 		getUserinfo(){
+			console.log(2);
 			let that=this;
 			// md5验证
 			let info = {

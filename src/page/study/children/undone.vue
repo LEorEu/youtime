@@ -108,6 +108,7 @@ export default {
 			}
 			axios.post(url,courseList,config)
 			.then(function (response) {
+				console.log(response)
 				if (response.data.errCode == 0) {
 					that.courses=response.data.data;
 				}else{

@@ -30,17 +30,21 @@
 								</div>
 							</div>
 							<div class="course-btns fl-r clearfix">
-								<button class="course-btn fl-r">复习</button>
-							</div>
+                <button class="course-btn" @click="evalShow(course)">课程评价</button>
+                <!--<button id="is-grade" class="course-btn" v-show="gradeShow">已评价</button>-->
+								<!--  <button class="course-btn fl-r">复习</button> -->
+                <!--<evaluation></evaluation>-->
+              </div>
 						</div>
 					</div>
 				</li>
 			</ul>
 		</div>
-		<div class="alert-box" v-show="show">
+    <evaluation ref="evaluation"></evaluation>
+    <div class="alert-box" v-show="show">
 			<div class="notfound">
 				<div class="notfound-img">
-					<img src="../../../../static/img/icon-null.png" alt="">
+					<img src="../../../../../static/img/icon-null.png" alt="">
 				</div>
 				<p>{{null_text}}</p>
 			</div>
@@ -51,10 +55,12 @@
 <script>
 import md5 from 'blueimp-md5'
 import axios from 'axios'
+import evaluation from './evaluation/index'
 
 export default {
+  components: { evaluation },
 	data(){
-        return{
+    return{
 			courses: [],
 			block: false,
 			show: false,
@@ -65,6 +71,10 @@ export default {
 		this.courseListFuc();
 	},
 	methods:{
+    // 弹窗
+    evalShow(course){
+      this.$refs.evaluation.showEvaluation(course)
+    },
 		// 未上的课列表
 		courseListFuc(){
 			let that=this;
@@ -89,7 +99,7 @@ export default {
 			let config = {
 				headers:{
 					versions: '1',
-					tokens: tokens,
+          tokens: tokens,
 				}
 			}
 			axios.post(url,courseList,config)
@@ -143,7 +153,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.course-box{ 
+.course-box{
 	.course-list{ padding: 40px 40px 60px; background-color: #fff; border: 1px solid #E6E6E6;
 		.course-left{ position: relative; width: 12px;
 			.line{ margin-left: 5px; width: 2px; height: 100%; background-color: #f3f3f3;}
@@ -153,12 +163,12 @@ export default {
 			.course-time{ margin-bottom: 20px;
 				p{ font-size: 18px; color: #818181;}
 			}
-			.course-info{ padding: 20px; min-width: 900px; border: 1px solid #E6E6E6; background: #F6F6F6; 
+			.course-info{ padding: 20px; min-width: 900px; border: 1px solid #E6E6E6; background: #F6F6F6;
 				.course-type{ width: 50px; height: 30px; line-height: 30px; text-align: center; color: #fff;}
 				.typev1{background-color: #F9D872;}
 				.typev4{background-color: #60C5F7;}
 				.typelive{background-color: #F9D872;}
-				.typetest{background-color: #F9D872;}
+				.typetest{width: 60px; background-color: #F9D872;}
 				.course-img{ width: 330px; height: 230px; overflow: hidden; text-align: center; color: #fff;}
 				.course-text{ width: calc(~'100% - 345px'); margin-left: 15px; margin-bottom: 10px;
 					.course-title{font-size: 18px; line-height: 30px; color: #4d4d4d;
@@ -173,15 +183,16 @@ export default {
 						p{ margin-left: 10px; line-height: 48px;}
 					}
 				}
-				.course-btn{ width: 140px; height: 40px; font-size: 16px; background-color: #fff; color: #727272; border: 1px solid #D1D1D1; border-radius: 4px; cursor: pointer;}
-			}
+        #is-grade{ background-color: #F2F3F4 }
+				.course-btn{ width: 140px; height: 40px; font-size: 16px; margin-right: 10px;background-color: #fff; color: #727272; border: 1px solid #D1D1D1; border-radius: 4px; cursor: pointer;}
+      }
 		}
 	}
 	.alert-box{ display: table; width: 100%; height: 100%;
 		.notfound{ display: table-cell; vertical-align: middle; width: 100%; height: 100%;
 			.notfound-img{ margin: 0 auto; width: 300px;
 				img{ max-width: 100%;}
-			}	
+			}
 			p{ margin-top: 20px; font-size: 18px; text-align: center; color: #666;}
 		}
 	}
