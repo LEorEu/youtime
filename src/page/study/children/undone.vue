@@ -112,7 +112,7 @@ export default {
 					that.courses=response.data.data;
 				}else{
 					that.null_text = '您还没有未上的课程，请先预约'
-					that.show = true;
+					that.nullshow = true;
 				}
 			})
 		},
@@ -298,6 +298,14 @@ export default {
 	.return-btn{ position: absolute; top: 6px; left: 15px; z-index: 999; cursor: pointer;
 		.el-icon-arrow-left{ color: #d1d1d1; font-size: 20px;}
 		p{ margin-left: 5px; line-height: 20px; font-size: 14px; color: #d1d1d1;}
+	}
+	.alert-box{ display: table; width: 100%; height: 100%;
+		.notfound{ display: table-cell; vertical-align: middle; width: 100%; height: 100%;
+			.notfound-img{ margin: 0 auto; width: 300px;
+				img{ max-width: 100%;}
+			}
+			p{ margin-top: 20px; font-size: 18px; text-align: center; color: #666;}
+		}
 	}
 }
 </style>
